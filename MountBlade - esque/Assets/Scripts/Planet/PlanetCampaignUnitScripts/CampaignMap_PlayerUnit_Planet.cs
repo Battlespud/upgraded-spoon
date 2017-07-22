@@ -44,38 +44,14 @@ public class CampaignMap_PlayerUnit_Planet : PlanetCampaignMapUnit {
             if(distance < 2)
             {
                 //And if we reached our destination
-                CheckDestination();//Check what type of destination was and do what you have to do
+				cmManager.CheckDestination(destinationType);//Check what type of destination was and do what you have to do
                 hasDestination = false;//we no longer have a destination
             }
         }
 	}
 
 
-	//TODO
-    void CheckDestination()
-    {
-        //The type of our destination
-        switch(destinationType)
-        {
-            case CampainMap_POI.POItype.Player: //Lines that do not have a break; between them means that they are the same case
-            case CampainMap_POI.POItype.Terrain:
-            default: 
-                //Do nothing
-                break;
-            case CampainMap_POI.POItype.Castle:
-                //Load Level
-			UnityEngine.SceneManagement.SceneManager.LoadScene("VillageBattle");
-                break;
-            case CampainMap_POI.POItype.Unit:
-                //Load battlefield
-                break;
-            case CampainMap_POI.POItype.Village:
-                //Load village UI
-                cmManager.onMenu = true;
-                cmManager.VillageUI.SetActive(true);
-                break;
-        }
-    }
+
 
     void MoveToPosition()
     {

@@ -25,10 +25,12 @@ public class Campaign_Map_Manager : MonoBehaviour {
 	public InputField nameInput;
 	public GameObject InputUI;
 
+	public List<GameObject> UI_Elements;
 
 
     void Awake()
     {
+		UI_Elements = new List<GameObject>();
 		PreventDuplicationAndDontDestroy ();
     }
 
@@ -49,33 +51,64 @@ public class Campaign_Map_Manager : MonoBehaviour {
 
     void Start()
     {
+		VillageUI.SetActive (false);
 		PlayerName = "Player";
         //Let's close the UI element at start
 		StartCoroutine ("AskPlayerName");
     }
 
 	void NewGame(){
-		SceneManager.LoadScene ("Space");
 		InitializeSpace ();
 	}
 
 	void InitializeSpace (){
-		VillageUI = GameObject.FindGameObjectWithTag ("VillageUI");
 		VillageUI.SetActive(false);
+		SceneManager.LoadScene ("Space");
 	}
 
 	void InitializePlanet (){
-		VillageUI = GameObject.FindGameObjectWithTag ("VillageUI");
 		VillageUI.SetActive(false);
+		SceneManager.LoadScene ("Planet");
 	}
 
 	void InitializeCity (){
-		VillageUI = GameObject.FindGameObjectWithTag ("VillageUI");
-		VillageUI.SetActive(true);
+		VillageUI.SetActive(false);
 	}
 
 	void InitializeBattle (){
+		VillageUI.SetActive(false);
+		SceneManager.LoadScene ("VillageBattle");
+	}
 
+	void PurgeUI(){
+		for(int i = 0; i < UI_Elements.Count
+	}
+
+
+	//TODO Called by player upon arrival at a destination
+	public void CheckDestination(CampainMap_POI.POItype destinationType)
+	{
+		//The type of our destination
+		switch(destinationType)
+		{
+		case CampainMap_POI.POItype.Player: //Lines that do not have a break; between them means that they are the same case
+		case CampainMap_POI.POItype.Terrain:
+		default: 
+			//Do nothing
+			break;
+		case CampainMap_POI.POItype.Castle:
+			//Load Level
+			InitializeBattle();
+			break;
+		case CampainMap_POI.POItype.Unit:
+			//Load battlefield
+			break;
+		case CampainMap_POI.POItype.Village:
+			//Load village UI
+			onMenu = true;
+			VillageUI.SetActive(true);
+			break;
+		}
 	}
 
 	IEnumerator AskPlayerName(){
@@ -110,9 +143,9 @@ public class Campaign_Map_Manager : MonoBehaviour {
     {
        //However, we want a little delay before we give control back to the player to avoid false input, like the player moving where the button we clicked was
         //I used a coroutine here to show you a different way of doing a timer, instead of the usual way we did it before.
+		VillageUI.SetActive(false);
         StartCoroutine("GiveControlToPlayer");
         //Add all menus to close here
-        VillageUI.SetActive(false);
     }
 
     //Our little IEnumerator
@@ -121,7 +154,7 @@ public class Campaign_Map_Manager : MonoBehaviour {
        //Coroutines are pretty powerful but be advised when using them, I'd usually suggest avoiding them altogether unless you have to or you know what you are doing
        //things can get messy pretty fast
         yield return new WaitForSeconds(.5f); //Do note that this is indepedent of the current Time.scale
-        onMenu = false;
+		 onMenu = false;
     }
 }
 

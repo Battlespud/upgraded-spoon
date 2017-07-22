@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class PlanetRotate : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+	public float speed = 2.5f;
+
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Rotate (transform.up * 2.5f * Time.deltaTime);
+		transform.Rotate (transform.up * speed * Time.deltaTime);
 	}
 }

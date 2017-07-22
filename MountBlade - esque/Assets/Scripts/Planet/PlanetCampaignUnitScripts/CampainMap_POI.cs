@@ -41,13 +41,14 @@ public class CampainMap_POI : MonoBehaviour {
     {
         //Find our references
         cmManager = GameObject.FindGameObjectWithTag("CampaignMapManager").GetComponent<Campaign_Map_Manager>();
-        canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
+		canvas = cmManager.GetComponentInChildren<Canvas>();
 
         //Instatiate our UI element and store it
         UI_Element = Instantiate(UI_Element_Prefab, transform.position, Quaternion.identity) as GameObject;
         UI_Element.transform.SetParent(canvas.transform); //For UI elements, you can't use transform.parent = , you have to use .SetParent()
         UnitListTextAsComponent = UI_Element.GetComponentInChildren<Text>();
 
+		cmManager.UI_Elements.Add (UI_Element);
         //Initialize the color here
         if (Point_of_Interest_Type != POItype.Player)
         {
@@ -86,8 +87,10 @@ public class CampainMap_POI : MonoBehaviour {
 
     void Update()
     {
-        UIFollowObject();
-        UpdateUIproperties();
+		if (UI_Element != null) {
+			UIFollowObject ();
+			UpdateUIproperties ();
+		}
     }
 
     //Update the text of the UI element based on the type and add the number of units
@@ -107,7 +110,7 @@ public class CampainMap_POI : MonoBehaviour {
             case POItype.Village:
                 UnitListTextAsComponent.text = "Village " + "(" + UnitListNumber + ")";
                 break;
-		case POItype.Spaceport:
+			case POItype.Spaceport:
 				UnitListTextAsComponent.text = "Spaceport " + "(" + UnitListNumber + ")";
 				break;
 			case POItype.Planet:
