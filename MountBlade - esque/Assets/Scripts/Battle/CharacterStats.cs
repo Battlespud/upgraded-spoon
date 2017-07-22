@@ -251,7 +251,7 @@ public class CharacterStats : MonoBehaviour {
         {
             Health -= amount;
             StartCoroutine("closeNoDamage");
-
+			Debug.Log (string.Format ("{0} taken by {1}. {2} health remains.", amount, name, Health));
             //TODO: Add hurting animation
             noDamage = true;
         }
