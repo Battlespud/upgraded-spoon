@@ -72,7 +72,7 @@ public class LaserRifle : Weapon {
 				}
 				//DissolveEffect targetEffect = hit.collider.gameObject.AddComponent<DissolveEffect> ();
 			////	targetEffect.TriggerDissolve (hit.point);
-			//	StartCoroutine (LineRendererHandlerFirstShot (hit.point));
+				StartCoroutine (LineRendererHandlerFirstShot (hit.point));
 			} else {
 				if (hit.point != null) {
 					Debug.Log (hit.collider.name);
