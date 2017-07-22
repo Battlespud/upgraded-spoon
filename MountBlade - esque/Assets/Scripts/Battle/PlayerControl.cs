@@ -28,6 +28,7 @@ public class PlayerControl : MonoBehaviour
 	public GameObject PistolIKPoint;
 	public GameObject NoPistolIKPoint;
 	public GameObject Muzzle;
+	public Weapon weapon;
 
 
     Vector3 directionPos; //The direction we look at
@@ -72,6 +73,7 @@ public class PlayerControl : MonoBehaviour
         charStats = GetComponent<CharacterStats>();
 		if(GetComponentInChildren<Weapon>()){
 			weaponType = WeaponType.RANGED;
+			weapon = GetComponentInChildren<Weapon> ();
 		}
 		else{
 			weaponType = WeaponType.MELEE;
@@ -88,6 +90,14 @@ public class PlayerControl : MonoBehaviour
 		}
 		if (Input.GetKeyDown (KeyCode.H)) {
 			SwitchWeaponTypes();
+		}
+		if (weaponType == WeaponType.RANGED) {
+			if ((Input.GetKeyDown (KeyCode.Mouse0) && !weapon.automatic) || Input.GetKey(KeyCode.Mouse0) && weapon.automatic) {
+				weapon.Fire ();
+			}
+			if (Input.GetKeyDown(KeyCode.R)) {
+				weapon.Reload();
+			}
 		}
         //We do a ray from the camera to see where the IK will look
         Ray ray = new Ray(cam.position, cam.forward);

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 7e57e4f68e80ef942beff7526edc4e04
-timeCreated: 1500752598
+guid: 964f2fe6636b13a468fc720dbec622c4
+timeCreated: 1500753476
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -141,7 +141,7 @@ ModelImporter:
     400130: Spine1
     400132: Spine2
     400134: Sword_joint
-    7400000: sword_and_shield_strafe
+    7400000: sword_and_shield_walk
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -167,10 +167,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: sword_and_shield_strafe
+      name: sword_and_shield_walk
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 68
+      lastFrame: 65
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -186,7 +186,7 @@ ModelImporter:
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
-      mirror: 1
+      mirror: 0
       bodyMask: 01000000010000000100000001000000010000000000000001000000000000000100000001000000010000000100000001000000
       curves: []
       events: []
