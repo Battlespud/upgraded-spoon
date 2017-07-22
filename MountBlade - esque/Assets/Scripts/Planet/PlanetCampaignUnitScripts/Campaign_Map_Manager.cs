@@ -62,26 +62,32 @@ public class Campaign_Map_Manager : MonoBehaviour {
 	}
 
 	void InitializeSpace (){
+		PurgeUI ();
 		VillageUI.SetActive(false);
 		SceneManager.LoadScene ("Space");
 	}
 
 	void InitializePlanet (){
+		PurgeUI();
 		VillageUI.SetActive(false);
 		SceneManager.LoadScene ("Planet");
 	}
 
 	void InitializeCity (){
+		PurgeUI ();
 		VillageUI.SetActive(false);
 	}
 
 	void InitializeBattle (){
+		PurgeUI ();
 		VillageUI.SetActive(false);
 		SceneManager.LoadScene ("VillageBattle");
 	}
 
 	void PurgeUI(){
-		for(int i = 0; i < UI_Elements.Count
+		for(int i = 0; i < UI_Elements.Count; i++){
+			GameObject.Destroy (UI_Elements [i]);
+	}
 	}
 
 
