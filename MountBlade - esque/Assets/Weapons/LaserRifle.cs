@@ -67,9 +67,16 @@ public class LaserRifle : Weapon {
 		if (Physics.Raycast (firingRay, out hit, maxRange)) {
 			if (hit.collider.gameObject.GetComponent<CharacterStats> ()) {
 				hit.collider.GetComponent<CharacterStats>().DoDamage(damage);
-				StartCoroutine (LineRendererHandlerFirstShot (hit.point));
+				if (hit.collider.GetComponent<Rigidbody> ()) {
+					//hit.collider.GetComponent<Rigidbody> ().AddExplosionForce (300000f, hit.point, 10f);
+				}
+				//DissolveEffect targetEffect = hit.collider.gameObject.AddComponent<DissolveEffect> ();
+			////	targetEffect.TriggerDissolve (hit.point);
+			//	StartCoroutine (LineRendererHandlerFirstShot (hit.point));
 			} else {
 				if (hit.point != null) {
+					Debug.Log (hit.collider.name);
+					StartCoroutine (LineRendererHandlerFirstShot (hit.point));
 					StartCoroutine (LineRendererHandlerFirstShot (hit.point));
 					if(hit.collider.gameObject.CompareTag("Reflective")){
 						BounceShot (hit, firingRay);

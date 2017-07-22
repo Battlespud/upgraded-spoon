@@ -33,6 +33,9 @@ public class CharacterStats : MonoBehaviour {
     public Rigidbody[] ragdollRigid;
     public Collider[] ragdollColliders;
 
+	//DissolveEffect
+	public NewDissolveScript dissolveEffect;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -59,7 +62,15 @@ public class CharacterStats : MonoBehaviour {
         CloseDamageColliders();
         CloseRagdoll();
 	}
-	
+
+	void RemoveRB(){
+		CloseRagdoll ();
+		for (int i = 0; i < ragdollRigid.Length; i++)
+		{
+			Destroy(ragdollRigid[i]);
+		}
+	}
+
 	void Update () 
     {
         MountLogic();
@@ -78,11 +89,15 @@ public class CharacterStats : MonoBehaviour {
                 //we remove the transform from the game manager's list of players
                 OpenRagdoll();
                 gm.RemoveCharacter(transform);
+				//Destroy(damageCollider_Norm);
+				//Destroy (damageCollider_Riding);
                 Health = 0;
                 dead = true;
+				Invoke ("RemoveRB", 2f);
                 //anim.SetBool("Dead", true); //and we also inform the animator about it
             }
         }
+			
 
         if(dead) //and we close all the components, this part could also go in the above statement so that we are not doing it every frame
         {
@@ -98,11 +113,17 @@ public class CharacterStats : MonoBehaviour {
                 GetComponent<EnemyControl>().enabled = false;
                 GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
             }
+			DissolveEffect ();
 
         }
         
 	}
     
+	void DissolveEffect(){
+		if (dissolveEffect != null)
+		dissolveEffect.running = true;
+	}
+
     void CloseRagdoll()
     {
         for (int i = 0; i < ragdollRigid.Length; i++)
