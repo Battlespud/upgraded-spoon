@@ -23,7 +23,7 @@ public class LaserRifle : Weapon {
 	void Start () {
 		name = "LaserRifle";
 		maxRange = 250;
-		damage = 40;
+		damage = 500;
 		maxAmmo = 7;
 		ammo = maxAmmo;
 		maxClips = 12;

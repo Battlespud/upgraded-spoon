@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public int totalEnemies;
 
     Campaign_Map_Manager cmManager;
+	public Texture2D cursor;
 
 
     //A simple list where we store every character in the game
@@ -22,6 +23,9 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
+		Cursor.SetCursor (cursor, new Vector2 (16f, 16f), CursorMode.ForceSoftware);
         //Search to see if there is a campaign manager game object
         if (GameObject.FindGameObjectWithTag("CampaignMapManager"))
         {

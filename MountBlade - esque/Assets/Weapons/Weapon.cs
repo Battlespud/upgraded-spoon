@@ -121,6 +121,9 @@ public abstract class Weapon : MonoBehaviour {
 		if ((Input.GetKeyDown (KeyCode.Mouse0) && !automatic) || Input.GetKey(KeyCode.Mouse0) && automatic) {
 			Fire ();
 		}
+		if (Input.GetKeyDown(KeyCode.R)) {
+			Reload();
+		}
 		if (reload) {
 			if (reloadTimer > 0) {
 				reloadTimer -= Time.deltaTime;

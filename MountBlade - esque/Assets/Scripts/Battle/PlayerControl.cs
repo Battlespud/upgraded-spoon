@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum WeaponType{
+	MELEE,
+	RANGED
+};
+
 public class PlayerControl : MonoBehaviour
 {
     #region Component Variables
@@ -17,6 +22,13 @@ public class PlayerControl : MonoBehaviour
 
     float speed = .3f; //How fast we move
     [SerializeField] float turnSpeed = 15; //How fast we turn
+
+	//weapon stuff
+	public WeaponType weaponType;
+	public GameObject PistolIKPoint;
+	public GameObject NoPistolIKPoint;
+	public GameObject Muzzle;
+
 
     Vector3 directionPos; //The direction we look at
     Vector3 lookPos; //Where we look at, used in IK
@@ -58,6 +70,13 @@ public class PlayerControl : MonoBehaviour
         capCol = GetComponent<CapsuleCollider>();
         SetupAnimator();
         charStats = GetComponent<CharacterStats>();
+		if(GetComponentInChildren<Weapon>()){
+			weaponType = WeaponType.RANGED;
+		}
+		else{
+			weaponType = WeaponType.MELEE;
+			}
+			
 	}
 	
 	void Update () 
@@ -67,7 +86,9 @@ public class PlayerControl : MonoBehaviour
 		} else {
 			speed = baseSpeed;
 		}
-
+		if (Input.GetKeyDown (KeyCode.H)) {
+			SwitchWeaponTypes();
+		}
         //We do a ray from the camera to see where the IK will look
         Ray ray = new Ray(cam.position, cam.forward);
 
@@ -83,8 +104,12 @@ public class PlayerControl : MonoBehaviour
         curLookPos = Vector3.Lerp(curLookPos, lookPos, Time.deltaTime * 15);
 
         HandleFriction();
-        ControlAttackAnimations();
-        ControlBlockAnimations();
+		if (weaponType == WeaponType.MELEE) {
+			ControlAttackAnimations ();
+			ControlBlockAnimations ();
+		} else {
+
+		}
 
 		anim.SetFloat ("Velocity", rigidBody.velocity.magnitude);
 //		Debug.Log (rigidBody.velocity.magnitude);
@@ -212,6 +237,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+
     void SetupAnimator()
     {
         // this is a ref to the animator component on the root.
@@ -230,6 +256,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
   
+	float LeftHandIKWeight;
     void OnAnimatorIK()
     {
         //Simple stuff, the values here work pretty good for me as seen in the video
@@ -252,5 +279,30 @@ public class PlayerControl : MonoBehaviour
             anim.SetIKPosition(AvatarIKGoal.LeftFoot, rIKpos.LeftFoot.position);
             
         }
+
+		//For aiming if we have a gun
+		if (weaponType == WeaponType.RANGED) {
+			LeftHandIKWeight = Mathf.Lerp (LeftHandIKWeight, 1f, .045f * Time.deltaTime);
+			RaycastHit hit;
+			anim.SetIKPosition (AvatarIKGoal.LeftHand, PistolIKPoint.transform.position);
+			anim.SetIKPositionWeight (AvatarIKGoal.LeftHand, LeftHandIKWeight);
+		}
+		else if (weaponType == WeaponType.MELEE && LeftHandIKWeight !=1f) {
+			LeftHandIKWeight = Mathf.Lerp (LeftHandIKWeight, 1f, .045f * Time.deltaTime);
+			anim.SetIKPosition (AvatarIKGoal.LeftHand, NoPistolIKPoint.transform.position);
+			anim.SetIKPositionWeight (AvatarIKGoal.LeftHand, LeftHandIKWeight);
+		}
+		else if (weaponType == WeaponType.MELEE && LeftHandIKWeight != 1f) {
+		}
     }
+
+	void SwitchWeaponTypes(){
+		if (weaponType == WeaponType.MELEE)
+		{	weaponType = WeaponType.RANGED;
+		}
+		else	if (weaponType == WeaponType.RANGED){
+			weaponType = WeaponType.MELEE;
+	}
+		LeftHandIKWeight = 0f;
+}
 }
