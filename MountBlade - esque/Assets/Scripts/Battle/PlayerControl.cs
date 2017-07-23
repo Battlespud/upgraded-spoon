@@ -30,6 +30,19 @@ public class PlayerControl : MonoBehaviour
 	public GameObject Muzzle;
 	public Weapon weapon;
 
+	Vector3 camDefaultPosition;
+	Vector3 camOverShoulderPosition;
+
+	float defaultFov = 90f;
+	float sightsFov = 45f;
+
+	bool WeaponDrawn = false;
+	bool lockoutDraw = false;
+	bool AimingSights =false;
+	bool lockoutAim = false;
+
+	bool sprinting = false;
+
 
     Vector3 directionPos; //The direction we look at
     Vector3 lookPos; //Where we look at, used in IK
@@ -66,6 +79,7 @@ public class PlayerControl : MonoBehaviour
 	void Start () 
     {
         //Setup the refferences
+		camOverShoulderPosition= new Vector3(1f, camDefaultPosition.y, -2.5f);
         rigidBody = GetComponent<Rigidbody>();
         cam = Camera.main.transform;
         capCol = GetComponent<CapsuleCollider>();
@@ -85,19 +99,16 @@ public class PlayerControl : MonoBehaviour
     {
 		if (Input.GetKey (KeyCode.LeftShift)) {
 			speed = 1.5f*baseSpeed;
+			sprinting = true;
 		} else {
 			speed = baseSpeed;
+			sprinting = false;
 		}
-		if (Input.GetKeyDown (KeyCode.H)) {
+		if (Input.GetKeyDown (KeyCode.G)) {
 			SwitchWeaponTypes();
 		}
 		if (weaponType == WeaponType.RANGED) {
-			if ((Input.GetKeyDown (KeyCode.Mouse0) && !weapon.automatic) || Input.GetKey(KeyCode.Mouse0) && weapon.automatic) {
-				weapon.Fire ();
-			}
-			if (Input.GetKeyDown(KeyCode.R)) {
-				weapon.Reload();
-			}
+			WeaponInput ();
 		}
         //We do a ray from the camera to see where the IK will look
         Ray ray = new Ray(cam.position, cam.forward);
@@ -293,8 +304,12 @@ public class PlayerControl : MonoBehaviour
 		//For aiming if we have a gun
 		if (weaponType == WeaponType.RANGED) {
 			LeftHandIKWeight = Mathf.Lerp (LeftHandIKWeight, 1f, .045f * Time.deltaTime);
-			RaycastHit hit;
-			anim.SetIKPosition (AvatarIKGoal.LeftHand, PistolIKPoint.transform.position);
+			float f = curLookPos.y;
+			if (f < .75f)
+				f = .75f;
+			else if (f > 1.95f)
+				f = 1.95f;
+			anim.SetIKPosition (AvatarIKGoal.LeftHand, new Vector3(PistolIKPoint.transform.position.x, f, PistolIKPoint.transform.position.z));
 			anim.SetIKPositionWeight (AvatarIKGoal.LeftHand, LeftHandIKWeight);
 		}
 		else if (weaponType == WeaponType.MELEE && LeftHandIKWeight !=1f) {
@@ -315,4 +330,109 @@ public class PlayerControl : MonoBehaviour
 	}
 		LeftHandIKWeight = 0f;
 }
+
+
+
+	//Weapon Stuff
+	void ToggleSights(){
+		if (!AimingSights && !lockoutAim && (WeaponDrawn || !lockoutDraw)) {
+			AimingSights = true;
+			if (!WeaponDrawn) {
+				ToggleHolster ();
+			}
+			lockoutAim = true;
+			StartCoroutine(ShiftFov(sightsFov,.5f));
+		}  else if(!lockoutAim) {
+			AimingSights = false;
+			lockoutAim = true;
+			StartCoroutine(ShiftFov(defaultFov,.5f));
+		}
+	}
+
+
+	void ToggleCursorVisible(){
+		if (Cursor.visible) {
+			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Locked;
+		}  else {
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.Locked;
+		}
+	}
+
+	private IEnumerator ShiftPosition(Vector3 finish, float time){
+		float elapsedTime = 0f;
+		while (elapsedTime < time) {
+			cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition,finish,(elapsedTime/time));
+			elapsedTime += Time.deltaTime;
+			yield return null;
+		}
+		lockoutDraw = false;
+	}
+
+	void ToggleHolster(){
+		if (WeaponDrawn && !lockoutDraw) {
+			WeaponDrawn = false;
+		//	ToggleCursorVisible ();
+			lockoutDraw = true;
+			StartCoroutine (ShiftPosition (camDefaultPosition, .5f));
+		}  else if(!lockoutDraw) {
+			WeaponDrawn = true;
+		//	ToggleCursorVisible ();
+			lockoutDraw = true;
+			StartCoroutine (ShiftPosition (camOverShoulderPosition, .5f));
+		}
+	}
+
+	private IEnumerator ShiftFov(float finish, float time){
+		float elapsedTime = 0f;
+		while (elapsedTime < time) {
+			Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView,finish,(elapsedTime/time));
+			elapsedTime += Time.deltaTime;
+			yield return null;
+		}
+		lockoutAim = false;
+	}
+
+	void WeaponInput(){
+		if (Input.GetKeyDown (KeyCode.R) && !sprinting) 
+			weapon.Reload ();
+		if (Input.GetMouseButtonDown (0)) {
+			if (!weapon.automatic) {
+				if (WeaponDrawn && !weapon.automatic) {
+					weapon.Fire ();
+				} else {
+					ToggleHolster ();
+				}
+			}
+		}
+		if (Input.GetMouseButton (0) && !sprinting) {
+			if (weapon.automatic) {
+				if (WeaponDrawn) {
+					weapon.Fire ();
+				} else {
+					ToggleHolster ();
+				}
+			}
+		}
+		if (Input.GetMouseButtonDown(1) &&!sprinting)
+			ToggleSights();
+		
+		if (Input.GetKeyDown(KeyCode.H) &&!sprinting)
+			ToggleHolster();
+	}
+
+
+	public bool inAttackAnimation;
+
+	//Animation
+	public void AnimationStarted(){
+		inAttackAnimation = true;
+	}
+
+	public void AnimationEnded(){
+		inAttackAnimation = false;
+	}
+
+
 }

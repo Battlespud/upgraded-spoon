@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     public GameObject Player;
     public GameObject AIprefab;
     public Transform enemySpawnPoint;
+	public Transform playerSpawnPoint;
     public int totalPlayers;
     public int totalEnemies;
 
@@ -54,7 +55,7 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < totalPlayers; i++)
         {
             //we store the original position
-            Vector3 pos = Player.transform.position;
+			Vector3 pos = playerSpawnPoint.position;
             //and we add to the column and substract from the rows
             //the first time this runs, both of this have 0 value, so the character will spawn at the original position
             pos.x += columns;

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public abstract class Weapon : MonoBehaviour {
 
+	public CharacterStats charStats;
+
 	//Rotation
 	public GameObject Pivot;
 
@@ -23,7 +25,7 @@ public abstract class Weapon : MonoBehaviour {
 	public Camera cam;
 
 
-
+	public bool Safety = false; //wont fire at friends.
 
 	public virtual void LoadReferences(){
 		cam = Camera.main;
@@ -45,8 +47,25 @@ public abstract class Weapon : MonoBehaviour {
 		AmmoText = GetComponentInChildren<Text> ();
 	}
 
+	public bool FireControl(){
+		if (!Safety)
+			return true;
+		Ray firingRay = new Ray (Muzzle.transform.position, Muzzle.transform.forward*maxRange);
+		RaycastHit hit;
+		if (Physics.Raycast (firingRay, out hit, maxRange)) {
+			try{
+			if (hit.collider.GetComponent<CharacterStats> ().characterID == charStats.characterID) {
+				return false;
+			}
+			}
+			catch{
+			}
+		}
+		return true;
+	}
+
 	public virtual void Reload(){
-		if (ammo != maxAmmo && clips > 0) {
+		if (ammo != maxAmmo && clips > 0 && !reload) {
 			reload = true;
 			ammo = 0;
 			reloadTimer = reloadTime;

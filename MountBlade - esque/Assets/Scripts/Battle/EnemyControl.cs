@@ -24,6 +24,10 @@ public class EnemyControl : MonoBehaviour {
     public bool blocking;//If he is blocking
     float blockTimer;
 
+	//weapon stuff
+	Weapon weapon;
+	float LeftHandIKWeight;
+
     //Our component variables
     CharacterStats charStats;
     UnityEngine.AI.NavMeshAgent agent;
@@ -62,7 +66,7 @@ public class EnemyControl : MonoBehaviour {
         charStats = GetComponent<CharacterStats>();
         SetupAnimator();
         gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-
+		weapon = GetComponentInChildren<Weapon> ();
        
 
         //We want the stopping distance of the navmesh agent to be the same as our attack range
@@ -86,6 +90,7 @@ public class EnemyControl : MonoBehaviour {
                 HoldPosition();
                 break;
         }
+
        
 	}
 
@@ -111,9 +116,13 @@ public class EnemyControl : MonoBehaviour {
         //If we have an enemy
         if(CurrentAttackingEnemy)
         {
-            //Then we have a destination
-            agent.SetDestination(CurrentAttackingEnemy.position);
 
+			float distance = Vector3.Distance(transform.position, CurrentAttackingEnemy.position);
+
+            //Then we have a destination
+			if (weapon == null || distance > .3f * weapon.maxRange) {
+				agent.SetDestination (CurrentAttackingEnemy.position);
+			}
             //Since we know that the agent can move, we know that we can use the desired velocity to play the walking animation
             //but we want to use only the positive value of z (for now)
             float movement = Mathf.Abs(agent.desiredVelocity.z) + Mathf.Abs(agent.desiredVelocity.x) + Mathf.Abs(agent.desiredVelocity.y);
@@ -121,8 +130,17 @@ public class EnemyControl : MonoBehaviour {
             anim.SetFloat("Forward", Mathf.Abs(agent.desiredVelocity.z),0.1f,Time.deltaTime);
 
             //Find the distance between the target
-            float distance = Vector3.Distance(transform.position, CurrentAttackingEnemy.position);
 
+			if (weapon != null) {
+				if (distance < charStats.AttackRange) {
+					weapon = null;
+				} else if (distance < .8f * weapon.maxRange) {
+					RaycastHit hit;
+					weapon.Fire ();		
+					if (weapon.ammo <= 0)
+						weapon.Reload ();
+				}
+			}
             //..and if we are close and before stopping,
             if(distance < charStats.AttackRange + 2)
             {
@@ -133,9 +151,17 @@ public class EnemyControl : MonoBehaviour {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), turnSpeed * Time.deltaTime);
 
                 //And if he is not attacking
-                if (!IsEnemyAttacking())
+				if (!IsEnemyAttacking ())
+				if (weapon != null) {
+					weapon.Fire ();
+					if (weapon.ammo <= 0)
+						weapon.Reload ();
+				}
+				else{
                     Attacking(); //Attack
+				}
                 else// or block
+					if (weapon == null) 
                     Blocking();
             }
         }
@@ -341,5 +367,11 @@ public class EnemyControl : MonoBehaviour {
 
         anim.SetLookAtWeight(curWeight, .5f, 1, 1, 1);
         anim.SetLookAtPosition(lookingPosition + new Vector3(0, 1.5f, 0));
+
+		if (weapon != null && CurrentAttackingEnemy) {
+			LeftHandIKWeight = Mathf.Lerp (LeftHandIKWeight, 1f, .045f * Time.deltaTime);
+			anim.SetIKPosition (AvatarIKGoal.LeftHand, CurrentAttackingEnemy.position);
+			anim.SetIKPositionWeight (AvatarIKGoal.LeftHand, LeftHandIKWeight);
+		}
     }
 }

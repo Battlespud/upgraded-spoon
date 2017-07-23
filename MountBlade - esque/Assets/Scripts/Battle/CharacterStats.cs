@@ -65,10 +65,15 @@ public class CharacterStats : MonoBehaviour {
 
 	void RemoveRB(){
 		CloseRagdoll ();
-		for (int i = 0; i < ragdollRigid.Length; i++)
-		{
-			Destroy(ragdollRigid[i]);
+		foreach (Collider col in ragdollColliders) {
+			col.enabled = false;
 		}
+		capCol.enabled = false;
+		Invoke ("DestroyGameObject", 1);
+	}
+
+	void DestroyGameObject(){
+		Destroy (gameObject);
 	}
 
 	void Update () 
@@ -93,7 +98,7 @@ public class CharacterStats : MonoBehaviour {
 				//Destroy (damageCollider_Riding);
                 Health = 0;
                 dead = true;
-				Invoke ("RemoveRB", 2f);
+				Invoke ("RemoveRB", .5f);
                 //anim.SetBool("Dead", true); //and we also inform the animator about it
             }
         }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LaserRifle : Weapon {
 
-	const float LaserTrail = .175f;
+	const float LaserTrail = .125f; //default .175
 
 
 
@@ -22,18 +22,18 @@ public class LaserRifle : Weapon {
 	// Use this for initialization
 	void Start () {
 		name = "LaserRifle";
-		maxRange = 250;
+		maxRange = 100;
 		damage = 500;
-		maxAmmo = 7;
-		ammo = maxAmmo;
+		maxAmmo = 20;
+		ammo = 0;
 		maxClips = 12;
 		clips = maxClips;
 		accuracy = 1f;
-		cooldown = .30f;
+		cooldown = .1f; //.3
 		reloadTime = 1.4f;
 		canFire = true;
-
-		automatic = false;
+		Safety = true;
+		automatic = true;
 
 		LoadReferences ();
 	}
@@ -49,6 +49,8 @@ public class LaserRifle : Weapon {
 		if (!canFire || ammo <= 0) {
 			return;
 		}
+		if (!FireControl())
+			return;
 	//	Debug.DrawRay (Muzzle.transform.position, cam.ScreenPointToRay (Input.mousePosition).direction * maxRange, Color.green, 3f);
 	//	Debug.DrawRay (Muzzle.transform.position, Muzzle.transform.forward * maxRange, Color.red);
 
