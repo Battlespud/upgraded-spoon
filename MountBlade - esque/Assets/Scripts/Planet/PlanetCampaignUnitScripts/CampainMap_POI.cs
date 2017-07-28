@@ -11,6 +11,7 @@ public class CampainMap_POI : MonoBehaviour {
     GameObject UI_Element; //We want to store somewhere that instatiated prefab
     Canvas canvas;//Reference to our canvas
     public Campaign_Map_Manager cmManager; //Our campaign map manager
+	public UIManager uiManager;
 
     public int FactionNumber; //To what faction this POI belongs to
     public Text UnitListTextAsComponent;//The text under the POI
@@ -42,13 +43,13 @@ public class CampainMap_POI : MonoBehaviour {
         //Find our references
         cmManager = GameObject.FindGameObjectWithTag("CampaignMapManager").GetComponent<Campaign_Map_Manager>();
 		canvas = cmManager.GetComponentInChildren<Canvas>();
-
+		uiManager = cmManager.gameObject.GetComponent<UIManager> ();
         //Instatiate our UI element and store it
         UI_Element = Instantiate(UI_Element_Prefab, transform.position, Quaternion.identity) as GameObject;
         UI_Element.transform.SetParent(canvas.transform); //For UI elements, you can't use transform.parent = , you have to use .SetParent()
         UnitListTextAsComponent = UI_Element.GetComponentInChildren<Text>();
 
-		cmManager.UI_Elements.Add (UI_Element);
+		uiManager.UI_Elements.Add (UI_Element);
         //Initialize the color here
         if (Point_of_Interest_Type != POItype.Player)
         {

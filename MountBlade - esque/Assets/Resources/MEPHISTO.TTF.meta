@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: d1a0f75c7795fce43aaa5c7036b8043a
+timeCreated: 1501221214
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Mephisto?
+  fontNames:
+  - 4d6570686973746f3f
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

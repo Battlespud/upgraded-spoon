@@ -18,20 +18,24 @@ public class Campaign_Map_Manager : MonoBehaviour {
     //We want a list with all the basic properties of our Factions, see below for more
     public List<FactionsBase> FactionList = new List<FactionsBase>();
 
-    public GameObject VillageUI;//The UI for when the player is visiting a village
     //Do note, for my projects, I usually keep everything that has to do with the UI on a different script to avoid confusions
 
 	public string PlayerName;
-	public InputField nameInput;
-	public GameObject InputUI;
 
-	public List<GameObject> UI_Elements;
+
+	//Events for uiManager;
+	StringEvent ChangeSceneEvent;
+
+	UIManager uiManager;
 
 
     void Awake()
     {
-		UI_Elements = new List<GameObject>();
+		uiManager = GetComponent<UIManager> ();
 		PreventDuplicationAndDontDestroy ();
+
+		ChangeSceneEvent = new StringEvent ();
+		ChangeSceneEvent.AddListener (uiManager.RecieveChangeSceneEvent);
     }
 
 	void PreventDuplicationAndDontDestroy(){
@@ -51,44 +55,35 @@ public class Campaign_Map_Manager : MonoBehaviour {
 
     void Start()
     {
-		VillageUI.SetActive (false);
 		PlayerName = "Player";
         //Let's close the UI element at start
-		StartCoroutine ("AskPlayerName");
     }
 
-	void NewGame(){
+	public void NewGame(){
 		InitializeSpace ();
 	}
 
 	void InitializeSpace (){
-		PurgeUI ();
-		VillageUI.SetActive(false);
+		ChangeSceneEvent.Invoke ("Space");
 		SceneManager.LoadScene ("Space");
 	}
 
 	void InitializePlanet (){
-		PurgeUI();
-		VillageUI.SetActive(false);
+		ChangeSceneEvent.Invoke ("Planet");
 		SceneManager.LoadScene ("Planet");
 	}
 
 	void InitializeCity (){
-		PurgeUI ();
-		VillageUI.SetActive(false);
+		ChangeSceneEvent.Invoke ("City");
+
 	}
 
 	void InitializeBattle (){
-		PurgeUI ();
-		VillageUI.SetActive(false);
+		ChangeSceneEvent.Invoke ("VillageBattle");
 		SceneManager.LoadScene ("VillageBattle");
 	}
 
-	void PurgeUI(){
-		for(int i = 0; i < UI_Elements.Count; i++){
-			GameObject.Destroy (UI_Elements [i]);
-	}
-	}
+
 
 
 	//TODO Called by player upon arrival at a destination
@@ -112,26 +107,12 @@ public class Campaign_Map_Manager : MonoBehaviour {
 		case CampainMap_POI.POItype.Village:
 			//Load village UI
 			onMenu = true;
-			VillageUI.SetActive(true);
+			uiManager.EnableVillageUI ();
 			break;
 		}
 	}
 
-	IEnumerator AskPlayerName(){
-		bool nameEntered = false;
-		nameInput.ActivateInputField ();
-		nameInput.Select();
-		while (!nameEntered) {
-			if (nameInput.text != "" && Input.GetKeyDown(KeyCode.Return)) {
-				nameEntered = true;
-			}
-			yield return null;
-		}
-		PlayerName = nameInput.text;
-		Debug.Log (PlayerName);
-		InputUI.SetActive (false);
-		NewGame ();
-	}
+
 
     //A simple function (for now) that increases the player's army, we have it public so that we can call it from a UI element
     public void RaiseArmy()
@@ -149,8 +130,8 @@ public class Campaign_Map_Manager : MonoBehaviour {
     {
        //However, we want a little delay before we give control back to the player to avoid false input, like the player moving where the button we clicked was
         //I used a coroutine here to show you a different way of doing a timer, instead of the usual way we did it before.
-		VillageUI.SetActive(false);
-        StartCoroutine("GiveControlToPlayer");
+		uiManager.DisableVillageUI();
+		StartCoroutine("GiveControlToPlayer");
         //Add all menus to close here
     }
 

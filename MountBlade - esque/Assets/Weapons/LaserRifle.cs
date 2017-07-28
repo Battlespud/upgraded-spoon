@@ -77,7 +77,7 @@ public class LaserRifle : Weapon {
 				StartCoroutine (LineRendererHandlerFirstShot (hit.point));
 			} else {
 				if (hit.point != null) {
-					Debug.Log (hit.collider.name);
+//					Debug.Log (hit.collider.name);
 					StartCoroutine (LineRendererHandlerFirstShot (hit.point));
 					StartCoroutine (LineRendererHandlerFirstShot (hit.point));
 					if(hit.collider.gameObject.CompareTag("Reflective")){
