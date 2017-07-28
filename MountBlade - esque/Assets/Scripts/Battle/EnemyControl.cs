@@ -58,6 +58,11 @@ public class EnemyControl : MonoBehaviour {
     public Vector3 holdPosition; //Where should they hold position
 
 
+	//MIRRORING FOR AIR BATTLES
+	public bool inMirrorMode;
+	public EnemyControlProxy proxy;
+
+
 	// Use this for initialization
 	void Start () 
     {
@@ -90,7 +95,11 @@ public class EnemyControl : MonoBehaviour {
                 HoldPosition();
                 break;
         }
-
+		if (inMirrorMode) {
+			proxy.MirrorMove (agent.desiredVelocity);
+			proxy.SetRotation (transform.rotation);
+//			Debug.Log (agent.desiredVelocity);
+		}
        
 	}
 
@@ -120,8 +129,11 @@ public class EnemyControl : MonoBehaviour {
 			float distance = Vector3.Distance(transform.position, CurrentAttackingEnemy.position);
 
             //Then we have a destination
-			if (weapon == null || distance > .3f * weapon.maxRange) {
+			if (weapon == null || distance > .6f * weapon.maxRange) {
 				agent.SetDestination (CurrentAttackingEnemy.position);
+			}
+			if (weapon != null && distance <= .6f * weapon.maxRange) {
+				agent.isStopped = true;
 			}
             //Since we know that the agent can move, we know that we can use the desired velocity to play the walking animation
             //but we want to use only the positive value of z (for now)

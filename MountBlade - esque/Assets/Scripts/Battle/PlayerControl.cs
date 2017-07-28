@@ -85,6 +85,7 @@ public class PlayerControl : MonoBehaviour
         capCol = GetComponent<CapsuleCollider>();
         SetupAnimator();
         charStats = GetComponent<CharacterStats>();
+		Chest = anim.GetBoneTransform (HumanBodyBones.Chest);
 		if(GetComponentInChildren<Weapon>()){
 			weaponType = WeaponType.RANGED;
 			weapon = GetComponentInChildren<Weapon> ();
@@ -278,6 +279,12 @@ public class PlayerControl : MonoBehaviour
     }
   
 	float LeftHandIKWeight;
+
+	float LookIKWeight;
+
+	Transform Chest;
+
+
     void OnAnimatorIK()
     {
         //Simple stuff, the values here work pretty good for me as seen in the video

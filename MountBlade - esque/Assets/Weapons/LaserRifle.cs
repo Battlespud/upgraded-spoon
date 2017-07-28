@@ -24,8 +24,8 @@ public class LaserRifle : Weapon {
 		name = "LaserRifle";
 		maxRange = 100;
 		damage = 500;
-		maxAmmo = 20;
-		ammo = 0;
+		maxAmmo = 10;
+		ammo = 1;
 		maxClips = 12;
 		clips = maxClips;
 		accuracy = 1f;
@@ -33,7 +33,7 @@ public class LaserRifle : Weapon {
 		reloadTime = 1.4f;
 		canFire = true;
 		Safety = true;
-		automatic = true;
+		automatic = false;
 
 		LoadReferences ();
 	}

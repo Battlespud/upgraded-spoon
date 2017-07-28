@@ -33,6 +33,19 @@ public class CharacterStats : MonoBehaviour {
     public Rigidbody[] ragdollRigid;
     public Collider[] ragdollColliders;
 
+
+
+
+
+
+
+
+
+	//MIRRORING FOR AIR BATTLES
+	public bool inMirrorMode;
+	CharacterStatsProxy proxy;
+
+
 	//DissolveEffect
 	public NewDissolveScript dissolveEffect;
 
@@ -121,9 +134,18 @@ public class CharacterStats : MonoBehaviour {
 			DissolveEffect ();
 
         }
+
+		if (inMirrorMode) {
+			ProxyLoop ();
+		}
         
 	}
     
+	public void ProxyLoop(){
+		
+	}
+
+
 	void DissolveEffect(){
 		if (dissolveEffect != null)
 		dissolveEffect.running = true;
@@ -271,7 +293,7 @@ public class CharacterStats : MonoBehaviour {
 
     bool noDamage;
 
-    public void DoDamage(float amount)
+    public virtual void DoDamage(float amount)
     {
         if(!noDamage)
         {
