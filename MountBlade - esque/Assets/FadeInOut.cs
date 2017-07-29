@@ -5,18 +5,22 @@ using UnityEngine.UI;
 
 public class FadeInOut : MonoBehaviour {
 
-	public bool Fade;
-	public bool Go = true;
+	//makes text fade in and out over a period of T seconds
+
+	bool Fade;
+	bool Go = true;
+
+	public float T = 1.5f;
 
 	void Update()
 	{
 		if (!Fade && Go)
 		{
-			StartCoroutine(FadeTextToFullAlpha(1.5f, GetComponent<Text>()));
+			StartCoroutine(FadeTextToFullAlpha(T, GetComponent<Text>()));
 		}
 		if (Fade && Go)
 		{
-			StartCoroutine(FadeTextToZeroAlpha(1.5f, GetComponent<Text>()));
+			StartCoroutine(FadeTextToZeroAlpha(T, GetComponent<Text>()));
 		}
 	}
 

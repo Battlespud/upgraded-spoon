@@ -7,6 +7,7 @@ public abstract class UnitType : ScriptableObject {
 
 	public  string UnitTypeName;
 
+	public int INDEX;
 
 	public bool Melee;
 	public bool Ranged;

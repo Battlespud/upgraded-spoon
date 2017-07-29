@@ -11,6 +11,7 @@ public class Character {
 	public Factions faction;
 	public string factionName;
 
+	public ArmyList armyList = new ArmyList();
 
 	public void SetupFactionAndRace(Races rac, Factions fac){
 		race = rac;

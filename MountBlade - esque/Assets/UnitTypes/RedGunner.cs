@@ -5,6 +5,7 @@ using UnityEngine;
 public class RedGunner : UnitType {
 
 	public override void Initialize(){
+		INDEX = 02;
 		UnitTypeName = "Red Arquebusier";
 		Ranged = true;
 		Melee = false;

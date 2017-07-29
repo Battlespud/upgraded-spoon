@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public enum Factions{
 	HELIUM,
@@ -65,9 +66,14 @@ public static class FactionsEnum {
 	public static CombinedUnits HeliumCombined;
 	public static CombinedUnits ZodangaCombined;
 
+	public static List<CombinedUnits> ListOfCombined;
+
+	//All
+	//hopefully contains one of each unit... hopefully
+	public static List<UnitType> AllUnits;
+	public static List<string> AllUnitsNames;
 
 	static FactionsEnum(){
-
 		//factions
 		HeliumUnitList = new List<UnitType>(){HeliumiteMarine.CreateInstance<HeliumiteMarine>()};
 		ZodangaUnitList = new List<UnitType> (){ ZodanganWarrior.CreateInstance<ZodanganWarrior>() };
@@ -80,6 +86,29 @@ public static class FactionsEnum {
 		ZodangaCombined = new CombinedUnits(RedUnitList, ZodangaUnitList);
 
 		FactionUnitLists = new List<CombinedUnits> (){HeliumCombined,ZodangaCombined};
+
+		ListOfCombined = new List<CombinedUnits> (){ HeliumCombined, ZodangaCombined };
+
+		AllUnits = new List<UnitType> ();
+		AllUnitsNames = new List<string> ();
+
+
+		foreach (CombinedUnits combined in ListOfCombined) {
+			bool cont = true;
+			foreach (UnitType u in combined.Combined) {
+			/*	foreach (UnitType inList in AllUnits) {
+					if(inList.GetType() == u.GetType()){
+						cont = false;
+					}
+				} */
+				if (cont) {
+					Debug.Log (u.UnitTypeName + " " + u.INDEX);
+				//	AllUnits[u.INDEX] = u;
+				//	AllUnitsNames[u.INDEX] = u.UnitTypeName;
+
+				}
+			}
+		}
 
 	}
 

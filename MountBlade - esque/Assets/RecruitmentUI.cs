@@ -14,6 +14,8 @@ public class RecruitmentUI : MonoBehaviour {
 
 	List<UnitType> AvailableUnitTypes;
 
+	UnitType selectedUnitType;
+
 	// Use this for initialization
 	void Start () {
 		refer = GameObject.FindGameObjectWithTag ("CampaignMapManager").GetComponent<References> ();
@@ -25,8 +27,12 @@ public class RecruitmentUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		UnitType selectedUnitType = AvailableUnitTypes[UnitTypeDropdown.value];
+		selectedUnitType = AvailableUnitTypes[UnitTypeDropdown.value];
 		UnitDescription.text = selectedUnitType.UnitDescription;
 		UnitCard.sprite = selectedUnitType.UnitCard;
+	}
+
+	public void RecruitUnit(){
+		refer.PlayerCharacter.armyList.AddUnits (selectedUnitType,1);
 	}
 }

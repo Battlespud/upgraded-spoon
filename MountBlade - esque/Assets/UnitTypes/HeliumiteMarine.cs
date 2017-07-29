@@ -7,6 +7,7 @@ public class HeliumiteMarine : UnitType {
 
 	public override void Initialize ()
 	{
+		INDEX = 11;
 		UnitTypeName = "Heliumite Marine";
 		Ranged = true;
 		Melee = true;
