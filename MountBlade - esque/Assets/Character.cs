@@ -7,6 +7,7 @@ public class Character {
 
 	public Races race;
 	public string raceName;
+
 	public Factions faction;
 	public string factionName;
 

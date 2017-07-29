@@ -10,7 +10,6 @@ public class RedInfantry : UnitType {
 		UnitTypeName = "Red Infantry";
 		Ranged = false;
 		Melee = true;
-		race = Races.RED;
 		cost = 75;
 	}
 	

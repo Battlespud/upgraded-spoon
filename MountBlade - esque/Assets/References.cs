@@ -18,7 +18,7 @@ public class References : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		PlayerCharacter = new Character();
 	}
 	

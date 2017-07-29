@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class UnitType : MonoBehaviour {
+public abstract class UnitType : ScriptableObject {
 
 
-	public string UnitTypeName;
+	public  string UnitTypeName;
 
-	public Factions faction;
-	public Races race;
 
 	public bool Melee;
 	public bool Ranged;
@@ -17,14 +15,33 @@ public abstract class UnitType : MonoBehaviour {
 
 	public int cost;
 
+	public string UnitDescription;
+
+
+	//Graphics
+	public static string path = "Graphics/Units/";
+
+	public Sprite UnitCard;
+	public GameObject Prefab;
 
 	//blahblah health, weapons etc
 
 
+
+	public void LoadGraphics(){
+		try{
+			string shortName = UnitTypeName.Replace(" ",string.Empty);
+			UnitCard = Resources.Load<Sprite> (string.Format ("{0}{1}/UnitCard", path, shortName )) as Sprite;
+		}
+		catch{
+		} //idgaf
+	}
+
 	// Use this for initialization
-	void Start () {
+	public void  Start () {
 		Initialize ();
-		if (Melee && Ranged){		Skirmisher = true;	}
+		LoadGraphics ();
+		if (Melee && Ranged){Skirmisher = true;	}
 
 
 	}

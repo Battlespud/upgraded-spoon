@@ -130,7 +130,6 @@ public class Campaign_Map_Manager : MonoBehaviour {
     {
        //However, we want a little delay before we give control back to the player to avoid false input, like the player moving where the button we clicked was
         //I used a coroutine here to show you a different way of doing a timer, instead of the usual way we did it before.
-		uiManager.DisableVillageUI();
 		StartCoroutine("GiveControlToPlayer");
         //Add all menus to close here
     }

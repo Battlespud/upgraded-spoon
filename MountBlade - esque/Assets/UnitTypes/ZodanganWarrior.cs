@@ -10,7 +10,6 @@ public class ZodanganWarrior : UnitType {
 		UnitTypeName = "Zodangan Warrior";
 		Ranged = true;
 		Melee = true;
-		race = Races.RED;
 		cost = 90;
 	}
 	

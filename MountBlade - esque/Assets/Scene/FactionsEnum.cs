@@ -51,33 +51,73 @@ public static class FactionsEnum {
 		Races.HUMAN
 	};
 
-	public static List<List<System.Type>> FactionUnitLists = new List<List<System.Type>> (){
-		FinalHeliumList,
-		FinalZodangaList
-	};
-
-
-
-	public static bool initialized = false;
-	public static void SetupLists(){
-		initialized = true;
-		FinalHeliumList.AddRange (HeliumUnitList);
-		FinalHeliumList.AddRange (RedUnitList);
-
-	}
-
-
+	public static List<CombinedUnits> FactionUnitLists;
 
 	//factions
-	public static List<System.Type> HeliumUnitList = new List<System.Type>(){typeof(HeliumiteMarine)};
-	public static List<System.Type> ZodangaUnitList = new List<System.Type>(){typeof(ZodanganWarrior)};
+	public static List<UnitType> HeliumUnitList;
+	public static List<UnitType> ZodangaUnitList;
 
 
 	//races
-	public static List<System.Type> RedUnitList = new List<System.Type>(){typeof(RedInfantry)};
+	public static List<UnitType> RedUnitList;
 
 	//final
-	public static List<System.Type> FinalHeliumList = new List<System.Type>();
-	public static List<System.Type> FinalZodangaList = new List<System.Type>();
+	public static CombinedUnits HeliumCombined;
+	public static CombinedUnits ZodangaCombined;
 
+
+	static FactionsEnum(){
+
+		//factions
+		HeliumUnitList = new List<UnitType>(){HeliumiteMarine.CreateInstance<HeliumiteMarine>()};
+		ZodangaUnitList = new List<UnitType> (){ ZodanganWarrior.CreateInstance<ZodanganWarrior>() };
+
+		//races
+		RedUnitList = new List<UnitType>(){RedInfantry.CreateInstance<RedInfantry>()};
+
+		//final
+		HeliumCombined = new CombinedUnits(RedUnitList, HeliumUnitList);
+		ZodangaCombined = new CombinedUnits(RedUnitList, ZodangaUnitList);
+
+		FactionUnitLists = new List<CombinedUnits> (){HeliumCombined,ZodangaCombined};
+
+	}
+
+}
+
+
+public struct CombinedUnits{
+	public List<UnitType> RaceUnits;
+	public List<UnitType> FactionUnits;
+	public List<UnitType> Combined;
+	public List<string> CombinedNames;
+
+	public CombinedUnits(List<UnitType> race, List<UnitType> fac){
+
+		RaceUnits = race;
+		FactionUnits = fac;
+
+		foreach (UnitType t in RaceUnits) {
+			t.Start ();
+			if (t.UnitCard != null)
+				Debug.Log (t.UnitTypeName + " has loaded its unitcard!");
+		}
+
+		foreach (UnitType t in FactionUnits) {
+			t.Start ();
+			if (t.UnitCard != null)
+				Debug.Log (t.UnitTypeName + " has loaded its unitcard!");
+		}
+
+		Combined = new List<UnitType> ();
+		Combined.AddRange (RaceUnits);
+		Combined.AddRange (FactionUnits);
+
+		CombinedNames = new List<string> ();
+
+		foreach (UnitType t in Combined) {
+			CombinedNames.Add (t.UnitTypeName);
+		}
+
+	}
 }

@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour {
 	public GameObject InputUI;  //The UI for when the player is entering name
 	public GameObject FactionAndRace;
 	public GameObject SplashScreen;
+	public GameObject RecruitmentUI;
 
 
 	public List<AudioClip> AudioList;
@@ -51,6 +52,7 @@ public class UIManager : MonoBehaviour {
 		SplashScreen.SetActive (false);
 		VillageUI.SetActive (false);
 		InputUI.SetActive (false);
+		RecruitmentUI.SetActive (false);
 	}
 
 	IEnumerator ShowSplashScreen(){
@@ -121,14 +123,26 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void EnableVillageUI(){
+		DisableAllUI ();
 		VillageUI.SetActive (true);
 		UIBugFix ();
 	}
 
 	public void DisableVillageUI(){
 		VillageUI.SetActive (false);
+		MapManager.CloseMenu ();
 	}
 
+	public void EnableRecruitmentUI(){
+		DisableAllUI ();
+		RecruitmentUI.SetActive(true);
+		UIBugFix ();
+	}
+
+	public void DisableRecruitmentUI(){
+		RecruitmentUI.SetActive (false);
+		EnableVillageUI ();
+	}
 	void PurgeUI(){
 		for(int i = 0; i < UI_Elements.Count; i++){
 			GameObject.Destroy (UI_Elements [i]);

@@ -11,7 +11,7 @@ public class HeliumiteMarine : UnitType {
 		Ranged = true;
 		Melee = true;
 		cost = 100;
-		race = Races.RED;
+		UnitDescription = "Heliumite Marines deploy from their great battleships to fight the enemys of Helium on foot during assaults";
 	}
 	
 	// Update is called once per frame
