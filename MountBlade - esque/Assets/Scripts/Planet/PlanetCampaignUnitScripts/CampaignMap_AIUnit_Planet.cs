@@ -127,8 +127,8 @@ public class CampaignMap_AIUnit_Planet : PlanetCampaignMapUnit {
         if (!hasDestination)
         {
             int ourFaction = cmPOI.FactionNumber;
-            FactionsBase fb = cmPOI.cmManager.FactionList[ourFaction];
-            FactionsBase fbToAttack = cmPOI.cmManager.FactionList[fb.EnemiesWith[0]];
+			FactionController fb = FactionController.FactionList[ourFaction];
+			FactionController fbToAttack = FactionController.FactionList[fb.EnemiesWith[0]];
 
             int randomValue = Random.Range(0, fbToAttack.FactionCastles.Count);
 
@@ -154,9 +154,9 @@ public class CampaignMap_AIUnit_Planet : PlanetCampaignMapUnit {
     {
         if (!hasDestination)
         {
-            int randomValue = Random.Range(0, cmPOI.cmManager.FactionList[cmPOI.FactionNumber].FactionCastles.Count);
+			int randomValue = Random.Range(0, FactionController.FactionList[cmPOI.FactionNumber].FactionCastles.Count);
 
-            targetDestination = cmPOI.cmManager.FactionList[cmPOI.FactionNumber].FactionCastles[randomValue].transform.position;
+			targetDestination = FactionController.FactionList[cmPOI.FactionNumber].FactionCastles[randomValue].transform.position;
 
             hasDestination = true;
         }
@@ -179,8 +179,8 @@ public class CampaignMap_AIUnit_Planet : PlanetCampaignMapUnit {
         {
             List<CampainMap_POI> destinationsPOI = new List<CampainMap_POI>();
 
-            destinationsPOI.AddRange(cmPOI.cmManager.FactionList[cmPOI.FactionNumber].FactionVillages);
-            destinationsPOI.AddRange(cmPOI.cmManager.FactionList[cmPOI.FactionNumber].FactionCastles);
+			destinationsPOI.AddRange(FactionController.FactionList[cmPOI.FactionNumber].FactionVillages);
+			destinationsPOI.AddRange(FactionController.FactionList[cmPOI.FactionNumber].FactionCastles);
 
             int randomValue = Random.Range(0, destinationsPOI.Count);
 
@@ -211,10 +211,9 @@ public class CampaignMap_AIUnit_Planet : PlanetCampaignMapUnit {
     {
         if(!hasDestination)
         {
-            int randomValue = Random.Range(0, cmPOI.cmManager.FactionList[cmPOI.FactionNumber].FactionVillages.Count);
+			int randomValue = Random.Range(0, FactionController.FactionList[cmPOI.FactionNumber].FactionVillages.Count);
 
-            targetDestination = cmPOI.cmManager.FactionList[cmPOI.FactionNumber].FactionVillages[randomValue].transform.position;
-
+			targetDestination = FactionController.FactionList[cmPOI.FactionNumber].FactionVillages[randomValue].transform.position;
             hasDestination = true;
         }
         else
@@ -236,9 +235,9 @@ public class CampaignMap_AIUnit_Planet : PlanetCampaignMapUnit {
     {
         if (!hasDestination)
         {
-            int randomValue = Random.Range(0, cmPOI.cmManager.FactionList[cmPOI.FactionNumber].FactionVillages.Count);
+			int randomValue = Random.Range(0, FactionController.FactionList[cmPOI.FactionNumber].FactionVillages.Count);
 
-            targetDestination = cmPOI.cmManager.FactionList[cmPOI.FactionNumber].FactionVillages[randomValue].transform.position;
+			targetDestination = FactionController.FactionList[cmPOI.FactionNumber].FactionVillages[randomValue].transform.position;
 
             hasDestination = true;
         }
@@ -282,7 +281,7 @@ public class CampaignMap_AIUnit_Planet : PlanetCampaignMapUnit {
                 //if (cmPOI.cmManager.FactionList[cmPOI.FactionNumber].factionAIstate == FactionsBase.FactionAIstate.GoToWar)
                 //{
                     //And we are at war with that Faction
-                    if (cmPOI.cmManager.FactionList[cmPOI.FactionNumber].EnemiesWith.Contains(_cmPOI.FactionNumber))
+				if (FactionController.FactionList[cmPOI.FactionNumber].EnemiesWith.Contains(_cmPOI.FactionNumber))
                     {
                         //..and that POI is actually a Unit
                         if (_cmPOI.Point_of_Interest_Type == CampainMap_POI.POItype.Unit)

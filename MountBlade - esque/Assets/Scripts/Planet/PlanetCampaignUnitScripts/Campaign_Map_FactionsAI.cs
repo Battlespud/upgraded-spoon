@@ -16,16 +16,16 @@ public class Campaign_Map_FactionsAI : MonoBehaviour {
         //decisionTimer = 5;
 
         //Create AI characters
-        for(int i = 0; i < cmManager.FactionList.Count; i++)
+		for(int i = 0; i < FactionController.FactionList.Count; i++)
         {
-            for (int c = 0; c < cmManager.FactionList[i].startingCharacters; c++)
+			for (int c = 0; c < FactionController.FactionList[i].startingCharacters; c++)
             {
-                Vector3 SpawnPosition = cmManager.FactionList[i].FactionCastles[0].transform.position;
+				Vector3 SpawnPosition = FactionController.FactionList[i].FactionCastles[0].transform.position;
 
-                GameObject tempGO = Instantiate(cmManager.FactionList[i].characterPrefab, SpawnPosition, Quaternion.identity) as GameObject;
+				GameObject tempGO = Instantiate(FactionController.FactionList[i].characterPrefab, SpawnPosition, Quaternion.identity) as GameObject;
 
                 CampaignMap_AIUnit_Planet aiUnit = tempGO.transform.GetComponent<CampaignMap_AIUnit_Planet>();
-                cmManager.FactionList[i].FactionCharacters.Add(aiUnit);
+				FactionController.FactionList[i].FactionCharacters.Add(aiUnit);
 
                 tempGO.GetComponent<CampainMap_POI>().FactionNumber = i;
 
@@ -61,9 +61,9 @@ public class Campaign_Map_FactionsAI : MonoBehaviour {
 
         if (gameTime > 1)
         {
-            for (int i = 0; i < cmManager.FactionList.Count; i++)
+			for (int i = 0; i < FactionController.FactionList.Count; i++)
             {
-                ExecuteAIorders(cmManager.FactionList[i]);
+				ExecuteAIorders(FactionController.FactionList[i]);
             }
 
             cmManager.tick = true;
@@ -73,125 +73,120 @@ public class Campaign_Map_FactionsAI : MonoBehaviour {
 	}
 
     //For each Faction, execute their state
-    void ExecuteAIorders(FactionsBase faction)
+	void ExecuteAIorders(FactionController faction)
     {
         //We can't do changes directly to the faction base,
         //We have to create a new on first
-        FactionsBase newFB = new FactionsBase();
-        newFB = faction; //Take the values from the previous stored base and do changes to that
+
 
         switch(faction.factionAIstate)
         {
-            case FactionsBase.FactionAIstate.GoToWar:
+		case FactionController.FactionAIstate.GoToWar:
 //                Debug.Log("WAAAARRGGGHHHH"); //War will be dealth otherwise, we don't have to do anything here
                 break;
-            case FactionsBase.FactionAIstate.RaiseArmies:
+            case FactionController.FactionAIstate.RaiseArmies:
                 //If we have any wealth
-                if (newFB.factionWealth > 0)
+                if (faction.factionWealth > 0)
                 {
                     //Then convert wealth to army units
-                    newFB.currentArmyUnits++;
-                    newFB.factionWealth--;
+                    faction.currentArmyUnits++;
+                    faction.factionWealth--;
                 }
                 else//If we don't, there's no need to wait till evaluation, change the AI state 
-                    newFB.factionAIstate = FactionsBase.FactionAIstate.RaiseResources;
+                    faction.factionAIstate = FactionController.FactionAIstate.RaiseResources;
                 break;
-            case FactionsBase.FactionAIstate.RaiseResources:
-                newFB.factionWealth++;//If we are raising resources, simply add to the wealth
+            case FactionController.FactionAIstate.RaiseResources:
+                faction.factionWealth++;//If we are raising resources, simply add to the wealth
                 break;
         }
 
         //After you do that, then we have to replace it
-        ReplaceFactionBase(faction, newFB);
+        ReplaceFactionBase(faction, faction);
     }
 
-    void ReplaceFactionBase(FactionsBase faction, FactionsBase replacement)
+    void ReplaceFactionBase(FactionController faction, FactionController replacement)
     {
         //Basically, you can't just replace a value,
         //You have to create a new one, therefore
 
         //We check to see if there's an instance of this in the list
-        if(cmManager.FactionList.Contains(faction))
+		if(FactionController.FactionList.Contains(faction))
         {
             //If there is, we store the index (where is it in the list)
-            int index = cmManager.FactionList.IndexOf(faction);
+			int index = FactionController.FactionList.IndexOf(faction);
             //We remove the previous instance
-            cmManager.FactionList.Remove(faction);
+			FactionController.FactionList.Remove(faction);
             //And instead of adding the new one, we insert it in the position of the previous one
-            cmManager.FactionList.Insert(index, replacement);
+			FactionController.FactionList.Insert(index, replacement);
         }
     }
 
     void EvaluateFactionAIstate()
     {
         //Start deciding what Faction should do next
-        for(int i = 0; i < cmManager.FactionList.Count; i++)
+		for(int i = 0; i < FactionController.FactionList.Count; i++)
         {
-            FactionAIstatesLogic(cmManager.FactionList[i]);
+			FactionAIstatesLogic(FactionController.FactionList[i]);
 
             //And change the AI state of each character
-            AssignStates(cmManager.FactionList[i]);
+			AssignStates(FactionController.FactionList[i]);
         }
 
         startEvaluating = false;
     }
 
-    void FactionAIstatesLogic(FactionsBase faction)
+    void FactionAIstatesLogic(FactionController faction)
     {
         //Same as above
-        FactionsBase newFB = new FactionsBase();
-        newFB = faction;
 
-        FactionsBase.FactionAIstate aiState = newFB.factionAIstate;
+        FactionController.FactionAIstate aiState = faction.factionAIstate;
 
         switch(aiState)
         {
-            case FactionsBase.FactionAIstate.GoToWar:
+            case FactionController.FactionAIstate.GoToWar:
                 //For now let's just reset the loop
-               // newFB.factionAIstate = FactionsBase.FactionAIstate.RaiseResources;
+               // faction.factionAIstate = FactionController.FactionAIstate.RaiseResources;
                 //And let's just assume we had casualties on that war
-              //  int ranValue = Random.Range(1, newFB.currentArmyUnits);
-               // newFB.currentArmyUnits -= ranValue;
+              //  int ranValue = Random.Range(1, faction.currentArmyUnits);
+               // faction.currentArmyUnits -= ranValue;
 
                 break;
-            case FactionsBase.FactionAIstate.RaiseArmies:
+            case FactionController.FactionAIstate.RaiseArmies:
                 //If we haven't reached our target Units
-                if (newFB.currentArmyUnits < newFB.storePreviousArmyUnits + newFB.targetArmyUnits)
+                if (faction.currentArmyUnits < faction.storePreviousArmyUnits + faction.targetArmyUnits)
                 {
                     //Then see if you can raise more
-                    RaiseArmiesLogic(newFB);
+                    RaiseArmiesLogic(faction);
                 }
                 else
                 {
                     //If we have, then we can probably go to war
-                    ShouldWeGoToWar(newFB);
+                    ShouldWeGoToWar(faction);
                 }
                 break;
-            case FactionsBase.FactionAIstate.RaiseResources: //If our previous state was to raise resources
-                if (newFB.factionWealth < newFB.factionWealthTarget) //And the ones we raised wasn't enough
+            case FactionController.FactionAIstate.RaiseResources: //If our previous state was to raise resources
+                if (faction.factionWealth < faction.factionWealthTarget) //And the ones we raised wasn't enough
                 {
                     //Countinue raising resources
-                    newFB.factionAIstate = FactionsBase.FactionAIstate.RaiseResources;
+                    faction.factionAIstate = FactionController.FactionAIstate.RaiseResources;
                 }
                 else
                 {   //If we have enough resources, then decide if you want to go to war
-                    ShouldWeGoToWar(newFB);
+                    ShouldWeGoToWar(faction);
                 }
                 break;
         }
 
-        ReplaceFactionBase(faction, newFB);
+        ReplaceFactionBase(faction, faction);
     }
 
-    void ShouldWeGoToWar(FactionsBase faction)
+    void ShouldWeGoToWar(FactionController faction)
     {
-        FactionsBase newFB = new FactionsBase();
-        newFB = faction;
 
         //If the faction's trait is agressive, they have more chances on going to war
-        float baseWarValue = (newFB.factionTraits == FactionsBase.FactionTraits.Aggresive) ? 30 : 60;
+		float baseWarValue = (faction.factionTraits == FactionController.FactionTraits.Aggressive) ? 30 : 60;
 
-        baseWarValue -= newFB.currentArmyUnits; //Let's just say, if they have a big army, they have more chances on going to war
+        baseWarValue -= faction.currentArmyUnits; //Let's just say, if they have a big army, they have more chances on going to war
 
         int ranValue = Random.Range(0, 100); //Get a random value
 
@@ -200,38 +195,36 @@ public class Campaign_Map_FactionsAI : MonoBehaviour {
         if(ranValue > baseWarValue)
         {
             //Then either go to war
-            newFB.factionAIstate = FactionsBase.FactionAIstate.GoToWar;
+            faction.factionAIstate = FactionController.FactionAIstate.GoToWar;
         }
         else
         {
             //Or see if you can raise more armies
-            newFB.storePreviousArmyUnits = faction.currentArmyUnits; //Store the previous Units we had
-            newFB.targetArmyUnits = 10; //Let's say they always need 10 more
-            RaiseArmiesLogic(newFB);
+            faction.storePreviousArmyUnits = faction.currentArmyUnits; //Store the previous Units we had
+            faction.targetArmyUnits = 10; //Let's say they always need 10 more
+            RaiseArmiesLogic(faction);
         }
 
-        ReplaceFactionBase(faction, newFB);
+        ReplaceFactionBase(faction, faction);
     }
 
-    void RaiseArmiesLogic(FactionsBase faction)
+    void RaiseArmiesLogic(FactionController faction)
     {
-        FactionsBase newFB = new FactionsBase();
-        newFB = faction;
 
         //If we have enough resources, then raise armies, 1 wealth equals 1 unit 
-        if (newFB.factionWealth >= newFB.targetArmyUnits)
+        if (faction.factionWealth >= faction.targetArmyUnits)
         {
-            newFB.factionAIstate = FactionsBase.FactionAIstate.RaiseArmies;
+            faction.factionAIstate = FactionController.FactionAIstate.RaiseArmies;
         }
         else
         {//If we dont, then raise some resources first
-            newFB.factionAIstate = FactionsBase.FactionAIstate.RaiseResources;
+            faction.factionAIstate = FactionController.FactionAIstate.RaiseResources;
         }
 
-        ReplaceFactionBase(faction, newFB);
+        ReplaceFactionBase(faction, faction);
     }
 
-    void AssignStates(FactionsBase faction)
+    void AssignStates(FactionController faction)
     {
         foreach (CampaignMap_AIUnit_Planet AIchar in faction.FactionCharacters)
         {
@@ -251,10 +244,10 @@ public class Campaign_Map_FactionsAI : MonoBehaviour {
             attackValue += AIchar.cmPOI.UnitListNumber; //Add the unit's the POI has to the attackValue
 
             //And if the Faction is at war, let's just swift the balance in favour of war
-            attackValue += (faction.factionAIstate == FactionsBase.FactionAIstate.GoToWar) ? 50 : -30;
+            attackValue += (faction.factionAIstate == FactionController.FactionAIstate.GoToWar) ? 50 : -30;
 
             //However, add the Faction traits to it's decision
-            guardValue += (faction.factionTraits == FactionsBase.FactionTraits.Aggresive) ? -30 : 10;
+			guardValue += (faction.factionTraits == FactionController.FactionTraits.Aggressive) ? -30 : 10;
 
             //Add more modifiers here until you get what you want, this can be expanded to a ridiculous extend
 

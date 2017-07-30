@@ -6,7 +6,7 @@ using System.Linq;
 public enum Factions{
 	HELIUM,
 	ZODANGA,
-	FIRSTBORNCORSAIRS,
+	CORSAIRS,
 	FIRSTBORN,
 	HOLYTHERNS,
 	WARHOON,
@@ -25,8 +25,8 @@ public static class FactionsEnum {
 	public static List<string> FactionNames = new List<string> () {
 		"Helium",
 		"Zodanga",
-		"FirstBorn Corsairs",
-		"FirstBorn of Omean",
+		"Corsairs",  //firstborn corsairs
+		"FirstBorn", //Firstborn of Omean
 		"Holy Therns",
 		"Warhoon",
 		"Thark",
@@ -58,13 +58,19 @@ public static class FactionsEnum {
 	public static List<UnitType> HeliumUnitList;
 	public static List<UnitType> ZodangaUnitList;
 
+	public static List<UnitType> CorsairsUnitList;
+	public static List<UnitType> FirstBornUnitList;
 
 	//races
 	public static List<UnitType> RedUnitList;
+	public static List<UnitType> BlackUnitList;
 
 	//final
 	public static CombinedUnits HeliumCombined;
 	public static CombinedUnits ZodangaCombined;
+
+	public static CombinedUnits CorsairsCombined;
+	public static CombinedUnits FirstBornCombined;
 
 	public static List<CombinedUnits> ListOfCombined;
 
@@ -78,22 +84,31 @@ public static class FactionsEnum {
 		HeliumUnitList = new List<UnitType>(){HeliumiteMarine.CreateInstance<HeliumiteMarine>()};
 		ZodangaUnitList = new List<UnitType> (){ ZodanganWarrior.CreateInstance<ZodanganWarrior>() };
 
+		CorsairsUnitList = new List<UnitType> (){ Reaver.CreateInstance<Reaver> () };
+		FirstBornUnitList = new List<UnitType> (){};
+
+
 		//races
 		RedUnitList = new List<UnitType>(){RedInfantry.CreateInstance<RedInfantry>()};
+		BlackUnitList = new List<UnitType>(){ Dator.CreateInstance<Dator> () };
 
 		//final
 		HeliumCombined = new CombinedUnits(RedUnitList, HeliumUnitList);
 		ZodangaCombined = new CombinedUnits(RedUnitList, ZodangaUnitList);
 
-		FactionUnitLists = new List<CombinedUnits> (){HeliumCombined,ZodangaCombined};
+		CorsairsCombined = new CombinedUnits (BlackUnitList, CorsairsUnitList);
+		FirstBornCombined = new CombinedUnits (BlackUnitList, FirstBornUnitList);
 
-		ListOfCombined = new List<CombinedUnits> (){ HeliumCombined, ZodangaCombined };
+
+		FactionUnitLists = new List<CombinedUnits> (){HeliumCombined,ZodangaCombined,CorsairsCombined,FirstBornCombined};
+
+		//ListOfCombined = new List<CombinedUnits> (){ HeliumCombined, ZodangaCombined,CorsairsCombined,FirstBornCombined };
 
 		AllUnits = new List<UnitType> ();
 		AllUnitsNames = new List<string> ();
 
 
-		foreach (CombinedUnits combined in ListOfCombined) {
+		foreach (CombinedUnits combined in FactionUnitLists) {
 			bool cont = true;
 			foreach (UnitType u in combined.Combined) {
 			/*	foreach (UnitType inList in AllUnits) {

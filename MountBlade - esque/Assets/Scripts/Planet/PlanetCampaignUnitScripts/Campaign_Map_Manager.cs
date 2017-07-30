@@ -16,7 +16,6 @@ public class Campaign_Map_Manager : MonoBehaviour {
     public bool onMenu;//If the player is on a menu
     public bool tick;
     //We want a list with all the basic properties of our Factions, see below for more
-    public List<FactionsBase> FactionList = new List<FactionsBase>();
 
     //Do note, for my projects, I usually keep everything that has to do with the UI on a different script to avoid confusions
 
@@ -143,61 +142,3 @@ public class Campaign_Map_Manager : MonoBehaviour {
 		 onMenu = false;
     }
 }
-
-//See below for more
-[System.Serializable]
-public struct FactionsBase
-{
-    public int factionId;
-    public Color factionColor;
-    
-    public int startingCharacters;
-    public GameObject characterPrefab;
-
-    public int currentArmyUnits;
-    public int storePreviousArmyUnits;
-    public int targetArmyUnits;
-    
-    public int factionWealth;
-    public int factionWealthTarget;
-    
-    public List<int> EnemiesWith;
-    public List<CampaignMap_AIUnit_Planet> FactionCharacters;
-    public List<CampainMap_POI> FactionCastles;
-    public List<CampainMap_POI> FactionVillages;
-
-    public FactionAIstate factionAIstate;
-    public FactionTraits factionTraits;
-    public FactionPrefers factionPrefers;
-
-    public enum FactionAIstate
-    {
-        GoToWar,RaiseArmies,RaiseResources
-    }
-
-    public enum FactionTraits
-    {
-        Aggresive,Passive,Diplomatic
-    }
-
-    public enum FactionPrefers
-    {
-        Oranges,Apples,Lemons,Cake
-    }
-}
-/* This is a struct
- * If you haven't used one before, you are lying :P
- * The majority of what you use is basically a struct*, as the example I gave in the video
- * a Vector3 is basically this:
- * 
- * public struct Vector3
- * { 
- *   float x;
- *   float y;
- *   float z;
- * }
- * 
- * Simple aint it? Now do take it with a grain of salt since I haven't actually seen the source code behind it but I can imagine,
- * If you where learning C++ (or even C# for that matter) outside of a game engine enviroment, this would have been one of the first(est) things you would learn
- * 
- */

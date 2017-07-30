@@ -54,7 +54,7 @@ public class CampainMap_POI : MonoBehaviour {
         if (Point_of_Interest_Type != POItype.Player)
         {
             //If it's not a player, then it's faction's color from the campaign manager script
-            factionColor = cmManager.FactionList[FactionNumber].factionColor;
+			factionColor = FactionController.FactionList[FactionNumber].factionColor;
         }
         else
         {
@@ -74,13 +74,13 @@ public class CampainMap_POI : MonoBehaviour {
         switch (Point_of_Interest_Type)
         {
             case POItype.Unit:
-                cmManager.FactionList[FactionNumber].FactionCharacters.Add(GetComponent<CampaignMap_AIUnit_Planet>());
+			FactionController.FactionList[FactionNumber].FactionCharacters.Add(GetComponent<CampaignMap_AIUnit_Planet>());
                 break;
             case POItype.Village:
-                cmManager.FactionList[FactionNumber].FactionVillages.Add(this);
+			FactionController.FactionList[FactionNumber].FactionVillages.Add(this);
                 break;
             case POItype.Castle:
-                cmManager.FactionList[FactionNumber].FactionCastles.Add(this);
+			FactionController.FactionList[FactionNumber].FactionCastles.Add(this);
                 break;
         }
         
