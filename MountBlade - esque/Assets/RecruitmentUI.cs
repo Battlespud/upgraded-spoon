@@ -33,6 +33,7 @@ public class RecruitmentUI : MonoBehaviour {
 	}
 
 	public void RecruitUnit(){
+		Debug.Log ("Recruiting " + selectedUnitType.UnitTypeName);
 		refer.PlayerCharacter.armyList.AddUnits (selectedUnitType,1);
 	}
 }

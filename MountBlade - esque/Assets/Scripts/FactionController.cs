@@ -13,6 +13,8 @@ public class FactionController : MonoBehaviour {
 
 	public Sprite Flag;
 
+	public Government gov;
+
 	public string factionName;
 	public Races factionRace;
 	public List<UnitType> AvailableUnits;
@@ -30,9 +32,11 @@ public class FactionController : MonoBehaviour {
 	public int factionWealth;
 	public int factionWealthTarget;
 
-	public List<int> EnemiesWith;
+	public List<Factions> EnemiesWith;
 	public List<CampaignMap_AIUnit_Planet> FactionCharacters;
 	public List<CampainMap_POI> FactionCastles;
+
+	public List<Character> FactionLeaders;
 	public List<CampainMap_POI> FactionVillages;
 
 	public FactionAIstate factionAIstate;

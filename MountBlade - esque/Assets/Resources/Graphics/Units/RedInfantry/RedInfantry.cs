@@ -7,7 +7,7 @@ public class RedInfantry : UnitType {
 
 	public override void Initialize ()
 	{
-		INDEX = 01;
+		INDEX = 1;
 		UnitTypeName = "Red Infantry";
 		Ranged = false;
 		Melee = true;

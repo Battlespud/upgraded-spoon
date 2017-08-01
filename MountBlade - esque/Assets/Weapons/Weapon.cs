@@ -54,7 +54,7 @@ public abstract class Weapon : MonoBehaviour {
 		RaycastHit hit;
 		if (Physics.Raycast (firingRay, out hit, maxRange)) {
 			try{
-			if (hit.collider.GetComponent<CharacterStats> ().characterID == charStats.characterID) {
+				if (hit.collider.GetComponent<CharacterStats> ().FactionID == charStats.FactionID) {
 				return false;
 			}
 			}

@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<character>
+   <id> 1 </id>
+   <title> The Virginian </title>
+   <first> John </first>
+   <last> Carter </last>
+   <race> 0 </race>
+   <faction> 0 </faction>
+</character>

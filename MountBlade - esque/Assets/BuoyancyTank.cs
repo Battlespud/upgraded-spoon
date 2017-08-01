@@ -4,6 +4,41 @@ using UnityEngine;
 
 public class BuoyancyTank : MonoBehaviour {
 
+
+	/*
+	 * Recommended values: 
+	 * 1000 mass
+	 * 1.5 Drag
+	 * 5 Angular Drag
+	 * */
+
+	//stores rays to allow hovering. Think of it as helium basically.
+
+	public float MaxCapacity;
+	public float Contents;
+	public float fillPercentage;
+
+
+	public float NumberOfTanks;
+
+	public Rigidbody ShipRB;
+
+	public float antigravity;
+
+	public BuoyancyTankValve Valve;
+
+	Material material;
+
+
+	void Awake(){
+		if (!GetComponent<BuoyancyTankValve> ()) {
+			gameObject.AddComponent<BuoyancyTankValve> ();
+		}
+		if (!gameObject.GetComponent<BuoyancyTankLeak> ()) {
+			gameObject.AddComponent<BuoyancyTankLeak> ();
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		ShipRB = GetComponentInParent<Rigidbody> ();
@@ -14,6 +49,8 @@ public class BuoyancyTank : MonoBehaviour {
 		Contents = MaxCapacity;
 		fillPercentage = Contents / MaxCapacity;
 		material = GetComponent<Renderer> ().material;
+
+		Valve = GetComponent<BuoyancyTankValve> ();
 	}
 	
 	// Update is called once per frame
@@ -21,6 +58,9 @@ public class BuoyancyTank : MonoBehaviour {
 	
 		if (Contents <= 0f) {
 			Contents = 0f;
+		}
+		if (Contents >= MaxCapacity) {
+			Contents = MaxCapacity;
 		}
 			fillPercentage = Contents / MaxCapacity;
 	//		ShipRB.AddForceAtPosition(Physics.gravity*-1f*((fillPercentage/100f)*GRAVITY*ShipRB.mass),transform.position);
@@ -34,22 +74,10 @@ public class BuoyancyTank : MonoBehaviour {
 
 	void FixedUpdate(){
 		Vector3 AntiGravity = new Vector3 (0f, (Physics.gravity.y * -1f / NumberOfTanks)*ShipRB.mass *fillPercentage, 0f);
-		antigravy = AntiGravity.y;
+		antigravity = AntiGravity.y;
 		ShipRB.AddForceAtPosition((AntiGravity),transform.position);
 
 	}
 
-	public float MaxCapacity;
-	public float Contents;
-	public float fillPercentage;
 
-
-	public float NumberOfTanks;
-
-	public Rigidbody ShipRB;
-
-	public float antigravy;
-
-
-	Material material;
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class UnitType : ScriptableObject {
 
 
-	public  string UnitTypeName;
+	public string UnitTypeName;
 
 	public int INDEX;
 
@@ -17,6 +17,7 @@ public abstract class UnitType : ScriptableObject {
 	public int cost;
 
 	public string UnitDescription;
+
 
 
 	//Graphics

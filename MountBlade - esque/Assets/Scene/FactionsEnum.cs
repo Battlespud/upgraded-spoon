@@ -3,6 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+public enum Origin
+{
+	BARSOOM,
+	HYBORIA,
+	EARTH
+};
+
+public enum Races
+{
+	RED,
+	BLACK,
+	WHITE,
+	GREEN,
+	HUMAN,
+	HYBORIAN
+	};
+
 public enum Factions{
 	HELIUM,
 	ZODANGA,
@@ -11,6 +28,7 @@ public enum Factions{
 	HOLYTHERNS,
 	WARHOON,
 	THARK,
+	JASOOM,
 	WEST,
 	SOUTH,
 	SOUTHEAST,
@@ -21,6 +39,8 @@ public enum Factions{
 
 public static class FactionsEnum {
 
+	//dont make unit ids higher than this
+	public const int MaxIndex = 200;
 
 	public static List<string> FactionNames = new List<string> () {
 		"Helium",
@@ -30,7 +50,24 @@ public static class FactionsEnum {
 		"Holy Therns",
 		"Warhoon",
 		"Thark",
+		"Jasoom", //earth
 		"Apollonia",
+		"Stygia",
+		"Vendhya",
+		"Khitai",
+		"Barbarians"
+	};
+
+	public static List<string> FactionNamesLong = new List<string> () {
+		"The Empire of Helium",
+		"The Empire of Zodanga",
+		"The Adherents of Issis",  //firstborn corsairs
+		"The FirstBorn of Omean", //Firstborn of Omean
+		"The Holy Therns",
+		"The Warhoon Horde",
+		"The Thark",
+		"The Earth Expeditionary Force",
+		"The Kingdom of Apollonia",
 		"Stygia",
 		"Vendhya",
 		"Khitai",
@@ -46,11 +83,17 @@ public static class FactionsEnum {
 		Races.GREEN,
 		Races.GREEN,
 		Races.HUMAN,
-		Races.HUMAN,
-		Races.HUMAN,
-		Races.HUMAN,
-		Races.HUMAN
+		Races.HYBORIAN,
+		Races.HYBORIAN,
+		Races.HYBORIAN,
+		Races.HYBORIAN,
+		Races.HYBORIAN
 	};
+
+
+
+	public static List<string> RaceNames = new List<string>(){"Red Martian", "FirstBorn", "White Thern", "Green Martian", "Human", "Hyborian"};
+
 
 	public static List<CombinedUnits> FactionUnitLists;
 
@@ -76,8 +119,9 @@ public static class FactionsEnum {
 
 	//All
 	//hopefully contains one of each unit... hopefully
-	public static List<UnitType> AllUnits;
-	public static List<string> AllUnitsNames;
+	//public static List<UnitType> AllUnits;
+	public static Dictionary<int,UnitType> AllUnits;
+	public static Dictionary<int, string> AllUnitsNames;
 
 	static FactionsEnum(){
 		//factions
@@ -102,25 +146,18 @@ public static class FactionsEnum {
 
 		FactionUnitLists = new List<CombinedUnits> (){HeliumCombined,ZodangaCombined,CorsairsCombined,FirstBornCombined};
 
-		//ListOfCombined = new List<CombinedUnits> (){ HeliumCombined, ZodangaCombined,CorsairsCombined,FirstBornCombined };
-
-		AllUnits = new List<UnitType> ();
-		AllUnitsNames = new List<string> ();
+		//AllUnits = new List<UnitType> ();
+		AllUnits = new Dictionary<int, UnitType>();
+		AllUnitsNames = new Dictionary<int, string>();
 
 
 		foreach (CombinedUnits combined in FactionUnitLists) {
-			bool cont = true;
 			foreach (UnitType u in combined.Combined) {
-			/*	foreach (UnitType inList in AllUnits) {
-					if(inList.GetType() == u.GetType()){
-						cont = false;
-					}
-				} */
-				if (cont) {
+				if (!AllUnits.ContainsKey (u.INDEX)) {
 					Debug.Log (u.UnitTypeName + " " + u.INDEX);
-				//	AllUnits[u.INDEX] = u;
-				//	AllUnitsNames[u.INDEX] = u.UnitTypeName;
-
+					AllUnits.Add (u.INDEX, u);
+					Debug.Log (AllUnits [u.INDEX].UnitTypeName + " added to main reference list");
+					AllUnitsNames.Add (u.INDEX, u.UnitTypeName);
 				}
 			}
 		}

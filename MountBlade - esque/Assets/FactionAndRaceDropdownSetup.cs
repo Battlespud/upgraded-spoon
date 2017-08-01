@@ -20,7 +20,7 @@ public class FactionAndRaceDropdownSetup : MonoBehaviour {
 		if (FactionSetup) {
 			dropdown.AddOptions (FactionsEnum.FactionNames);
 		} else {
-			dropdown.AddOptions (Race.RaceNames);
+			dropdown.AddOptions (FactionsEnum.RaceNames);
 		}
 	}
 	

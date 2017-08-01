@@ -49,7 +49,7 @@ public class WeaponCollisions : MonoBehaviour {
             {
                 CharacterStats cS = other.transform.GetComponentInParent<CharacterStats>();
 
-                if (cS.characterID != chS.characterID) //and that character wasn't our own
+				if (cS.FactionID != chS.FactionID) //and that character wasn't our own
                 {
                     //Do damage etc.
                     cS.Health -= 30;

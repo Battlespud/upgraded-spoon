@@ -79,6 +79,9 @@ public class CampainMap_POI : MonoBehaviour {
             case POItype.Village:
 			FactionController.FactionList[FactionNumber].FactionVillages.Add(this);
                 break;
+		case POItype.Planet:
+		//	FactionController.FactionList[FactionNumber].FactionPlanets.Add(this);
+			break;
             case POItype.Castle:
 			FactionController.FactionList[FactionNumber].FactionCastles.Add(this);
                 break;

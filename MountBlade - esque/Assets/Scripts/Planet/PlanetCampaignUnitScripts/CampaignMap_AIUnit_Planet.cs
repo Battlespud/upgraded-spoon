@@ -128,7 +128,7 @@ public class CampaignMap_AIUnit_Planet : PlanetCampaignMapUnit {
         {
             int ourFaction = cmPOI.FactionNumber;
 			FactionController fb = FactionController.FactionList[ourFaction];
-			FactionController fbToAttack = FactionController.FactionList[fb.EnemiesWith[0]];
+			FactionController fbToAttack = FactionController.FactionList[(int)fb.EnemiesWith[0]];
 
             int randomValue = Random.Range(0, fbToAttack.FactionCastles.Count);
 
@@ -281,7 +281,7 @@ public class CampaignMap_AIUnit_Planet : PlanetCampaignMapUnit {
                 //if (cmPOI.cmManager.FactionList[cmPOI.FactionNumber].factionAIstate == FactionsBase.FactionAIstate.GoToWar)
                 //{
                     //And we are at war with that Faction
-				if (FactionController.FactionList[cmPOI.FactionNumber].EnemiesWith.Contains(_cmPOI.FactionNumber))
+				if (FactionController.FactionList[cmPOI.FactionNumber].EnemiesWith.Contains((Factions)_cmPOI.FactionNumber))
                     {
                         //..and that POI is actually a Unit
                         if (_cmPOI.Point_of_Interest_Type == CampainMap_POI.POItype.Unit)

@@ -4,7 +4,9 @@ using System.Collections;
 public class CharacterStats : MonoBehaviour {
 
     public bool Enemy;
-    public string characterID;//For dynamic tagging purposes
+  //  public string characterID;//For dynamic tagging purposes
+	public int FactionID; //owner faction
+	public int CharacterID; //owner
     public float Health = 100;
     public bool immortal;
     public bool dead;
@@ -106,7 +108,7 @@ public class CharacterStats : MonoBehaviour {
             {
                 //we remove the transform from the game manager's list of players
                 OpenRagdoll();
-                gm.RemoveCharacter(transform);
+				gm.RemoveSoldier(transform);
 				//Destroy(damageCollider_Norm);
 				//Destroy (damageCollider_Riding);
                 Health = 0;

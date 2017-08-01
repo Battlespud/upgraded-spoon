@@ -15,9 +15,8 @@ public class BuoyancyTankLeak : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(tank.Contents > 0f)
 		tank.Contents -= leakRate * Time.deltaTime;
-		if (tank.Contents <= 0) {
-			Destroy (this);
+
 		}
 	}
-}

@@ -262,10 +262,10 @@ public class EnemyControl : MonoBehaviour {
         if(CurrentAttackingEnemy == null)
         {
            //Then check the list of the current Players
-           foreach(Transform tran in gm.CurrentPlayers)
+			foreach(Transform tran in gm.CurrentSoldiers)
            {
                //if a transform's character id is not the same as ours
-               if(tran.GetComponent<CharacterStats>().characterID != charStats.characterID)
+				if(tran.GetComponent<CharacterStats>().FactionID != charStats.FactionID)
                {
                    //and we haven't already add him to our list of enemies, then add him
                    if(!currentEnemies.Contains(tran))
@@ -300,9 +300,9 @@ public class EnemyControl : MonoBehaviour {
             {    //and check it's health to see if he is dead
                 if(enemStats.Health <= 0)
                 { 
-                    if(gm.CurrentPlayers.Contains(CurrentAttackingEnemy))
+					if(gm.CurrentSoldiers.Contains(CurrentAttackingEnemy))
                     {
-                        gm.CurrentPlayers.Remove(CurrentAttackingEnemy);
+						gm.CurrentSoldiers.Remove(CurrentAttackingEnemy);
                     }
 
                     enemStats = null;                   
