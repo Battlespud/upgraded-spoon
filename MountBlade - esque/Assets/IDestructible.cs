@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IDestructible {
 
-	 void Damage (float f);
-	 void Destroy();
+	 void Damage (float dam);
+	 void Destruct();
 
 }
