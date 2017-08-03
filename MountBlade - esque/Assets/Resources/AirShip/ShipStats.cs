@@ -7,7 +7,7 @@ public class ShipStats : MonoBehaviour {
 
 	//Contains collections for all ship components and override controls.
 	[SerializeField]public string Instructions = "This is the Ship's main control panel, use the sliders to control it. \n See individual components for better instructions.";
-
+	[Header("Collections")]
 	public List<BuoyancyTank> RayTanks;
 	public FuelTank fuelTank;
 	public List<BuoyancyTankLeak> Leaks;
@@ -18,12 +18,12 @@ public class ShipStats : MonoBehaviour {
 	NavMeshAgent agent;
 
 	float fuelUse;
-
+	[Header("Fuel Information")]
 	public float Fuel;
 	public float FuelCapacity;
 	public float SecondsOfFuel;
 
-
+	[Header("Control Functionality")]
 	//go forward
 	[SerializeField]bool EngineOverride = true;
 	[SerializeField][Range(0.0f,1.0f)] float EnginePowerLevelOverride;
@@ -133,7 +133,7 @@ public class ShipStats : MonoBehaviour {
 
 	void FixedUpdate(){
 		//physics heresy inc
-
+		transform.RotateAround(transform.position,transform.up,TurnRate*TurnControl*Time.fixedDeltaTime);
 	}
 
 
@@ -160,6 +160,10 @@ public class ShipStats : MonoBehaviour {
 	public float TotalAntiGravForce;
 	public float GravForce;
 	public Vector3 Vel;
+
+	public float TurnRate = 15f;
+	[Range(-1f,1f)]
+	public float TurnControl = 0f;
 
 	Rigidbody rb;
 

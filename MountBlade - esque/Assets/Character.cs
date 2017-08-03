@@ -34,8 +34,46 @@ public struct Relation{
 		char2 = b;
 		affection = 0f;
 
-		char1.Relationships.Add (this);
-		char2.Relationships.Add (this);
+	}
+
+	public Relation(RelationType r, int a, int b){
+		relationship=r;
+		char1 = Character.GetCharacter(a);
+		char2 = Character.GetCharacter(b);
+		affection = 0f;
+
+	}
+}
+
+public struct TwoInt{
+	public int a;
+	public int b;
+	public TwoInt(int c, int d){
+		a = c;
+		b = d;
+	}
+}
+
+public struct Wallet{
+	private int Wealth;
+	public bool Spend(int amount){
+		if (amount <= Wealth) {
+			Wealth -= amount;
+			Debug.Log ("Spent " + amount + ". Current Balance: " + Wealth);
+			return true;
+		}
+		Debug.Log ("Not enough money.");
+		return false;
+	}
+	public void Earn(int amount){
+		Wealth += amount;
+	}
+	public int Balance(){
+		Debug.Log ("Current Balance: " + Wealth);
+		return Wealth;
+	}
+	public Wallet(int a){
+		Wealth = a;
 	}
 }
 
@@ -48,14 +86,29 @@ public class Character : ScriptableObject {
 	static int ID = 1; //add 1 whenever we assign, 0 is player
 	public static Dictionary<int,Character> CharacterDictionary = new Dictionary<int, Character>(); //hopefully contains every character
 
+
+	public static Dictionary<TwoInt,Relation> Relationships = new Dictionary<TwoInt, Relation> ();
+
+	public Relation GetRelation(int IDa, int IDb){
+		TwoInt key = new TwoInt (IDa, IDb);
+		TwoInt inverseKey = new TwoInt (IDb, IDa);
+		if (Relationships.ContainsKey (key)) {
+			return Relationships [key];
+		} else if (Relationships.ContainsKey (inverseKey)) {
+			return Relationships [inverseKey];
+		} else {
+			Relationships.Add(key,new Relation(RelationType.DEFAULT,key.a,key.b));
+			return Relationships [key];
+		}
+	}
+
 	public static Character GetCharacter(int i){
 		if (!CharacterDictionary.ContainsKey (i))
 			Debug.Log ("Invalid Character ID: " + i);
 		return CharacterDictionary [i];
 	}
 
-	//Do not add directly to Relationships list. Just instantiate a new relationship and it will automatically put itself where it needs to go
-	public List<Relation> Relationships = new List<Relation> ();
+
 
 
 	public Races race;
@@ -77,6 +130,8 @@ public class Character : ScriptableObject {
 
 	public Factions faction;
 	public string factionName;
+
+	public Wallet wallet = new Wallet (0);
 
 	public ArmyList armyList = new ArmyList();
 

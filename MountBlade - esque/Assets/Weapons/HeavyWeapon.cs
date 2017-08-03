@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class HeavyWeapon : MonoBehaviour {
 
+	//TODO
 
+	[Header("Heavy Weapon")]
 	//Position of shots
 	public GameObject Muzzle;
 

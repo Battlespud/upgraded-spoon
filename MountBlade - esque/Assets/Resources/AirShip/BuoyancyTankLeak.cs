@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuoyancyTankLeak : ShipComponent {
+public class BuoyancyTankLeak : MonoBehaviour {
 
 	BuoyancyTank tank;
 

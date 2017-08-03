@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ShipComponent : MonoBehaviour, IDestructible {
-
+	[Header("Ship Component")]
 	public bool Functional = true;
 	public bool Repairable = true;
 	public float CriticalIntegrity = 30f;
