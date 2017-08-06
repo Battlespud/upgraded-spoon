@@ -12,6 +12,7 @@ public class CampaignMap_PlayerUnit_Planet : PlanetCampaignMapUnit {
     public CampainMap_POI.POItype destinationType;
 
     Campaign_Map_Manager cmManager;
+	CampainMap_POI cPOI;
 
 	void Start () 
     {
@@ -44,7 +45,7 @@ public class CampaignMap_PlayerUnit_Planet : PlanetCampaignMapUnit {
             if(distance < 2)
             {
                 //And if we reached our destination
-				cmManager.CheckDestination(destinationType);//Check what type of destination was and do what you have to do
+				cmManager.CheckDestination(destinationType, cPOI);//Check what type of destination was and do what you have to do
                 hasDestination = false;//we no longer have a destination
             }
         }
@@ -66,7 +67,7 @@ public class CampaignMap_PlayerUnit_Planet : PlanetCampaignMapUnit {
             if(hit.transform.GetComponent<CampainMap_POI>())
             {
                 //store that POI component
-                CampainMap_POI cPOI = hit.transform.GetComponent<CampainMap_POI>();
+                 cPOI = hit.transform.GetComponent<CampainMap_POI>();
 
                 //We want to move there, but not where the raycast hit, we want to move to it's origin
 				targetDestination = hit.transform.position;

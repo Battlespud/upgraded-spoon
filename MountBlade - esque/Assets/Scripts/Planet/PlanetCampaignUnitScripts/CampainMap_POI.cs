@@ -17,6 +17,8 @@ public class CampainMap_POI : MonoBehaviour {
     public Text UnitListTextAsComponent;//The text under the POI
     public int UnitListNumber = 1; //How many enemies this POI holds
     Color factionColor; //We store the faction color here
+	public string Name =""; //mainly used for planets
+
 
     //What type of POI this is
     public POItype Point_of_Interest_Type;
@@ -45,11 +47,7 @@ public class CampainMap_POI : MonoBehaviour {
 		canvas = cmManager.GetComponentInChildren<Canvas>();
 		uiManager = cmManager.gameObject.GetComponent<UIManager> ();
         //Instatiate our UI element and store it
-        UI_Element = Instantiate(UI_Element_Prefab, transform.position, Quaternion.identity) as GameObject;
-        UI_Element.transform.SetParent(canvas.transform); //For UI elements, you can't use transform.parent = , you have to use .SetParent()
-        UnitListTextAsComponent = UI_Element.GetComponentInChildren<Text>();
-
-		uiManager.UI_Elements.Add (UI_Element);
+		GenerateLabel();
         //Initialize the color here
         if (Point_of_Interest_Type != POItype.Player)
         {
@@ -69,25 +67,33 @@ public class CampainMap_POI : MonoBehaviour {
         InitializeFactionOwner();
     }
 
+	void GenerateLabel()
+	{
+		UI_Element = Instantiate(UI_Element_Prefab, transform.position, Quaternion.identity) as GameObject;
+		UI_Element.transform.SetParent(canvas.transform); //For UI elements, you can't use transform.parent = , you have to use .SetParent()
+		UnitListTextAsComponent = UI_Element.GetComponentInChildren<Text>();
+		uiManager.UI_Elements.Add (UI_Element);
+	}
+
     void InitializeFactionOwner()
     {
-        switch (Point_of_Interest_Type)
-        {
-            case POItype.Unit:
-			FactionController.FactionList[FactionNumber].FactionCharacters.Add(GetComponent<CampaignMap_AIUnit_Planet>());
-                break;
-            case POItype.Village:
-			FactionController.FactionList[FactionNumber].FactionVillages.Add(this);
-                break;
+		switch (Point_of_Interest_Type) {
+		case POItype.Unit:
+			FactionController.FactionList [FactionNumber].FactionCharacters.Add (GetComponent<CampaignMap_AIUnit_Planet> ());
+			break;
+		case POItype.Village:
+			FactionController.FactionList [FactionNumber].FactionVillages.Add (this);
+			break;
 		case POItype.Planet:
 		//	FactionController.FactionList[FactionNumber].FactionPlanets.Add(this);
 			break;
-            case POItype.Castle:
-			FactionController.FactionList[FactionNumber].FactionCastles.Add(this);
-                break;
-        }
-        
+		case POItype.Castle:
+			FactionController.FactionList [FactionNumber].FactionCastles.Add (this);
+			break;
+		}
     }
+
+
 
     void Update()
     {
@@ -112,13 +118,13 @@ public class CampainMap_POI : MonoBehaviour {
                 UnitListTextAsComponent.text = "Castle " + "(" + UnitListNumber + ")";
                 break;
             case POItype.Village:
-                UnitListTextAsComponent.text = "Village " + "(" + UnitListNumber + ")";
+			UnitListTextAsComponent.text = "Village of " + Name + "(" + UnitListNumber + ")";
                 break;
 			case POItype.Spaceport:
 				UnitListTextAsComponent.text = "Spaceport " + "(" + UnitListNumber + ")";
 				break;
 			case POItype.Planet:
-				UnitListTextAsComponent.text = "Planet " + "(" + UnitListNumber + ")";
+			UnitListTextAsComponent.text = Name + "(" + UnitListNumber + ")";
 				break;
         }
     }

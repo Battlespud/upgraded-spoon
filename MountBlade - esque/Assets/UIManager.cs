@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour {
 	public GameObject FactionAndRace;
 	public GameObject SplashScreen;
 	public GameObject RecruitmentUI;
+	public GameObject PlanetUI;
+	public GameObject SpaceportUI;
 
 
 	public List<AudioClip> AudioList;
@@ -55,6 +57,8 @@ public class UIManager : MonoBehaviour {
 		VillageUI.SetActive (false);
 		InputUI.SetActive (false);
 		RecruitmentUI.SetActive (false);
+		PlanetUI.SetActive(false);
+		SpaceportUI.SetActive (false);
 	}
 
 	IEnumerator ShowSplashScreen(){
@@ -79,7 +83,7 @@ public class UIManager : MonoBehaviour {
 	}
 
 
-
+	//deprecated
 	public void RecieveChangeSceneEvent(string scene){
 		PurgeUI ();
 		switch (scene) {
@@ -113,6 +117,9 @@ public class UIManager : MonoBehaviour {
 
 				break;
 			}
+
+		default:
+			break;
 		}
 
 	}
@@ -145,7 +152,29 @@ public class UIManager : MonoBehaviour {
 		RecruitmentUI.SetActive (false);
 		EnableVillageUI ();
 	}
-	void PurgeUI(){
+
+	public void EnablePlanetUI(){
+		DisableAllUI ();
+		PlanetUI.SetActive (true);
+		UIBugFix();
+	}
+
+	public void DisablePlanetUI(){
+		PlanetUI.SetActive (false);
+	}
+
+	public void EnableSpaceportUI(){
+		DisableAllUI ();
+		SpaceportUI.SetActive (true);
+		UIBugFix();
+	}
+
+	public void DisableSpaceportUI(){
+		SpaceportUI.SetActive (false);
+	}
+
+	//cleans out all the tags for units and planets that accumulate.
+	public void PurgeUI(){
 		for(int i = 0; i < UI_Elements.Count; i++){
 			GameObject.Destroy (UI_Elements [i]);
 		}
