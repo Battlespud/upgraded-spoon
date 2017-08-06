@@ -78,9 +78,11 @@ public class ShipStats : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		FuelCapacity = fuelTank.Capacity;
-		Fuel = fuelTank.Contents;
-		fuelUse = 0f;
+		if (fuelTank) {
+			FuelCapacity = fuelTank.Capacity;
+			Fuel = fuelTank.Contents;
+			fuelUse = 0f;
+		}
 		//The sum antigravity forces of all of our tanks.
 		TotalAntiGravForce = 0f;
 		foreach (BuoyancyTank b in RayTanks) {
@@ -127,7 +129,7 @@ public class ShipStats : MonoBehaviour {
 			}
 		}
 
-
+		if(fuelTank)
 		SecondsOfFuel = Fuel / (fuelUse * 60f);
 	}
 

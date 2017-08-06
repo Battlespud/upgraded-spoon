@@ -34,7 +34,7 @@ public class EnemyControl : MonoBehaviour {
     Rigidbody rigidBody;
     Animator anim;
     GameManager gm;
-    Transform CurrentAttackingEnemy;
+    public Transform CurrentAttackingEnemy;
     CharacterStats enemStats;
 
     //Our list with the current enemies
