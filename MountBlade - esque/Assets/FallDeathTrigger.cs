@@ -6,12 +6,10 @@ public class FallDeathTrigger : MonoBehaviour {
 	// Stick on a  big square trigger underneath the minimum altitude on air maps so people die when they fall off.
 
 
-	// Use this for initialization
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}

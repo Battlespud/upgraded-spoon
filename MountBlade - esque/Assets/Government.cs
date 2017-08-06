@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Government  {
 
+	//TODO 
+	//Intended to be the organizational structure of a factions government.
 
 	public string LeaderTitle = "Jeddak";
 	public Character Leader;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NewDissolveScript : MonoBehaviour {
 
+	//For a dissolve effect set running to true.
+
 	Material mat;
 	Renderer ren;
 

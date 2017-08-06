@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class FactionAndRaceDropdownSetup : MonoBehaviour {
 
+	//Controller for the Faction and Race UI.
+
 	Dropdown dropdown;
 
 	public bool FactionSetup;

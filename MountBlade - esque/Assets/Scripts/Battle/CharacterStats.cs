@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CharacterStats : MonoBehaviour {
 
+	//Character data class for in combat characters.
+
     public bool Enemy;
   //  public string characterID;//For dynamic tagging purposes
 	public int FactionID; //owner faction

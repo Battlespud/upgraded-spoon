@@ -77,7 +77,9 @@ public struct Wallet{
 	}
 }
 
-//Any named character
+//Any named character. May be changed to a pure c# class later.
+//These are just data structures for the characters in the abstract, not for the physical prefabs used in combat.  Those will be generated
+// based on this info.
 public class Character : ScriptableObject {
 
 
@@ -122,18 +124,24 @@ public class Character : ScriptableObject {
 	}
 	bool male = true; //There are only two types of people, those with dicks, and sandwich makers
 
+	//unique id assigned at start.
 	public int charID;
 
+	//in general how loyal this character is to leaders.
 	public float loyalty;
 
-
-
+	//Loaded from Factionenum
 	public Factions faction;
 	public string factionName;
 
+	//Basic struct for money.
 	public Wallet wallet = new Wallet (0);
 
+	//What units are in this characters army.
 	public ArmyList armyList = new ArmyList();
+
+
+
 
 	public void SetupFactionAndRace(Races rac, Factions fac){
 		race = rac;
@@ -154,6 +162,8 @@ public class Character : ScriptableObject {
 		raceName = FactionsEnum.RaceNames [(int)race];
 	}
 
+
+	//Only use this one for now if  you can.  We'll refactor it and remove the others later probably.
 	public void Construct(string t, string f, string l, Races rac, Factions fac){
 		title = t;
 		firstName = f;
@@ -168,7 +178,8 @@ public class Character : ScriptableObject {
 		}
 	}
 
-	//sets up  arelationship network based on reference relationship
+	//TODO
+	//sets up a relationship network based on reference relationship
 	public void Construct(string t, string f, string l, Races rac, Factions fac, Character reference, Relation relWithReference){
 		title = t;
 		firstName = f;

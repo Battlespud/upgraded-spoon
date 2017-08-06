@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Water : MonoBehaviour {
 
+	//Very basic buoyancy script, add to a collider that encompasses the volume of the water.  
+	//Adds a force equal to a percent of the objects mass depending on depth in terms of Y.
+
 	[SerializeField]
 	public List<Rigidbody> ObjectsInWater = new List<Rigidbody>();
 	const float GRAVITY = 9.8f;

@@ -5,6 +5,8 @@ using System.Linq;
 
 public class GameManager : MonoBehaviour {
 
+	//no clue dont fuck with it yet
+
     public GameObject Player;
     public GameObject AIprefab;
     public Transform enemySpawnPoint;

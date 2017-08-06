@@ -6,6 +6,8 @@ public enum WeaponType{
 	RANGED
 };
 
+
+//very basic very shit player controller.
 public class PlayerControl : MonoBehaviour
 {
     #region Component Variables

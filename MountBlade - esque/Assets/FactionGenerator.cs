@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FactionGenerator : MonoBehaviour {
 
+	//On game start, spawns a controller for each faction listed below so we dont have to do it manually.
+	//Theyre components so that we can easily monitor them.
 	FactionController Helium;
 	FactionController Zodanga;
 	FactionController Corsairs;

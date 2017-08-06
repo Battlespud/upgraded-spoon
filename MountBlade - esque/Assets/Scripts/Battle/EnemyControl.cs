@@ -4,6 +4,13 @@ using System.Collections.Generic;
 
 public class EnemyControl : MonoBehaviour {
 
+
+	//Not mine i swear.
+	//WIP TODO everything tbh.
+	//Add to any character you want to run around and fight.
+
+
+
     [SerializeField] float turnSpeed = 2;
 
     [SerializeField]

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class References : MonoBehaviour {
 
-	//just used to monitor the player character and keep a reference to it for ease of use
+	//just used to monitor the player character and keep a reference to it for ease of use. 
 
 	public Character PlayerCharacter;
 

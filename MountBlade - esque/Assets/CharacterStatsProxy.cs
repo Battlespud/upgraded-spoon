@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterStatsProxy : MonoBehaviour {
 
-
+	//Used for getting around navmesh limitations. Deprecated.  Use EnemyControlProxy instead.
 
 	public CharacterStats RealCharacter;
 

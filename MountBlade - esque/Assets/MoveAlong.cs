@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MoveAlong : MonoBehaviour {
 
+	//literally Just goes in a line lol. for debugging.
+
 	// Use this for initialization
 	void Start () {
 		

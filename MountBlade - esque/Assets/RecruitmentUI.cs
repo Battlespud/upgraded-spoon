@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class RecruitmentUI : MonoBehaviour {
 
+	//Controller for the recruitment UI triggered when you walk into a village.
+	//TODO Once planets/cities have controlling factions/races, add their low tier units to the available units list.
+
 	References refer;
 	UIManager manager;
 

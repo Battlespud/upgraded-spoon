@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AddReflectivePhysics : MonoBehaviour {
 
+
+	//On scene start, adds reflective physics material to any gameobject missing it that has the proper tag.  Deletes itself afterwards.  
+
 	public PhysicMaterial reflectiveMat;
 	List<GameObject> gameobjects;
 

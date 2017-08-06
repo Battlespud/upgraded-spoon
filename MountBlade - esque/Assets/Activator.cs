@@ -4,8 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Activator : MonoBehaviour {
+	//used to activate objects implementing IActivate. Stick it on a player prefab.
+	//Dependent on having a UI properly setup, which this project doesnt yet. This was copied directly from our other proj.
 
-	//used to activate objects implementing IActivate
+
+
 	Ray activationRay;
 	public const float ActivationDistance = 1f;
 	public Text ActivationToolTipText;

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class WeaponCollisions : MonoBehaviour {
 
+	//idk not mine.
+
     PlayerControl _PC;
     CharacterStats chS;
     EnemyControl enC;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyControlProxy : MonoBehaviour {
 
+	//Used for getting around navmesh limitations.
+
 	Weapon weapon;
 	public CharacterController Controller;
 

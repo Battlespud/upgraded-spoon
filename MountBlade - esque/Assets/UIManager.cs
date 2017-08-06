@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
+	//Overall controller for the UI. Work in progress, but functional rn..
+
 
 	//UI Blocks
 	public GameObject MainMenu;

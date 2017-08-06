@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class FadeInOut : MonoBehaviour {
 
-	//makes text fade in and out over a period of T seconds
+	//makes text fade in and out over a period of T seconds. UI mainly but we can probably use the same method for other stuff.
 
 	bool Fade;
 	bool Go = true;

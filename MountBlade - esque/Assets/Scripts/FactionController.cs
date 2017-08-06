@@ -5,7 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class FactionController : MonoBehaviour {
 	//singletons
-	//left as mono instead of so for monitoring purposes.
+	//left as mono instead of SO for monitoring purposes.
+	//Automatically placed ingame by FactionGenerator.
 
 	public static List<FactionController> FactionList = new List<FactionController>();
 
